@@ -1,0 +1,22 @@
+/* Additional component styles */
+.section-padding {
+  padding: 6rem 0;
+}
+
+@media (min-width: 640px) {
+  .section-padding {
+    padding: 8rem 0;
+  }
+}
+
+.container-custom {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    padding: 0 2rem;
+  }
+}

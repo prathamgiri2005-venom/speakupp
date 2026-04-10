@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #FDFBF7;
+  --bg-secondary: #F4EFE6;
+  --bg-accent: #E8D5D1;
+  --text-primary: #2D2A26;
+  --text-secondary: #5C574F;
+  --text-inverse: #FFFFFF;
+  --brand-primary: #C5A059;
+  --brand-primary-hover: #B38F4E;
+  --brand-accent: #D1A3A4;
+  --border-subtle: rgba(45, 42, 38, 0.08);
+  --border-medium: rgba(45, 42, 38, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+}
+
+.font-heading {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-body {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary-hover);
+}
+
+/* Glass effect */
+.glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(253, 251, 247, 0.8);
+}
+
+/* Gradient backgrounds */
+.gradient-hero {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Button hover effects */
+.btn-primary {
+  background-color: var(--brand-primary);
+  color: var(--text-inverse);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--brand-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.3);
+}
+
+/* Card styles */
+.card {
+  background: white;
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 20px 40px rgba(45, 42, 38, 0.1);
+}
+
+.card-popular {
+  border: 2px solid var(--brand-primary);
+  box-shadow: 0 20px 50px rgba(197, 160, 89, 0.2);
+}
+
+/* Section styles */
+section {
+  position: relative;
+}
+
+/* Play button glass effect */
+.play-button-glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
