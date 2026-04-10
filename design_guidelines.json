@@ -1,0 +1,96 @@
+{
+  "theme": "Light",
+  "archetype": "1 (Organic & Earthy)",
+  "vibe": "Minimal, elegant, feminine but professional. Trust-building, calm, nurturing.",
+  "colors": {
+    "background": {
+      "primary": "#FDFBF7",
+      "secondary": "#F4EFE6",
+      "accent": "#E8D5D1"
+    },
+    "text": {
+      "primary": "#2D2A26",
+      "secondary": "#5C574F",
+      "inverse": "#FFFFFF"
+    },
+    "brand": {
+      "primary": "#C5A059",
+      "primary_hover": "#B38F4E",
+      "accent": "#D1A3A4"
+    },
+    "border": {
+      "subtle": "rgba(45, 42, 38, 0.08)",
+      "medium": "rgba(45, 42, 38, 0.15)"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "headings": "'Playfair Display', serif",
+      "body": "'Outfit', sans-serif"
+    },
+    "scales": {
+      "h1": "text-5xl sm:text-6xl tracking-tight leading-none font-medium",
+      "h2": "text-3xl sm:text-4xl tracking-tight font-medium",
+      "h3": "text-xl sm:text-2xl font-medium",
+      "body": "text-base leading-relaxed",
+      "label": "text-xs tracking-[0.2em] uppercase font-bold"
+    }
+  },
+  "spacing_and_layout": {
+    "section_padding": "py-24 sm:py-32",
+    "container": "max-w-7xl mx-auto px-6 lg:px-8",
+    "grid_bento": "grid-cols-1 md:grid-cols-12 gap-8 md:gap-12",
+    "generous_padding": "p-8 md:p-12"
+  },
+  "components": {
+    "hero": "Asymmetrical layout. Large H1 text on the left, high-end serif. Right side: Elegant overlapping images or single large profile image of Sandhya with a very subtle drop shadow and soft rounded corners (e.g., rounded-2xl). Background should be a very soft gradient blending #FDFBF7 and #F4EFE6.",
+    "buttons": "Rounded-full (pill shape) for primary CTAs to feel feminine and smooth. Background #C5A059, text #FFFFFF, transition to #B38F4E on hover. Add a subtle shadow. Provide a 'data-testid' for testing.",
+    "cards": "For pricing and benefits: Background #FFFFFF, 1px border of subtle border color or rgba(0,0,0,0.05), rounded-2xl, generous padding (p-10). Pricing should highlight the 'Standard' plan with a slightly elevated shadow and a subtle '#C5A059' border. No generic drop shadows, just soft ambient shadow.",
+    "video_section": "Instead of raw embed, show a beautifully styled placeholder image with an elegant, glassy play button in the center. Use 'backdrop-blur-md bg-white/30 border border-white/40' for the play button to give it that luxury crystal feel.",
+    "header": "Sticky nav with crystal glass effect: backdrop-blur-xl bg-[#FDFBF7]/80, 1px bottom border of rgba(45,42,38,0.05).",
+    "footer": "Generous padding, background #F4EFE6, clean minimalist typography."
+  },
+  "motion": {
+    "global": "Smooth scrolling via lenis.",
+    "page_load": "Fade-in and slight slide-up (y: 20 -> 0, opacity: 0 -> 1) over 0.8s.",
+    "hover_states": "Buttons lift slightly (-translate-y-0.5) with scale-up (scale-105) on hover."
+  },
+  "image_urls": {
+    "hero_profile": {
+      "url": "https://images.unsplash.com/photo-1758518729459-235dcaadc611?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB3b21hbiUyMHByb2Zlc3Npb25hbCUyMHNtaWxpbmd8ZW58MHx8fHwxNzc1ODQ3MDc5fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Smiling confident Indian woman, ideal for Sandhya's profile in Hero and About sections."
+    },
+    "about_profile": {
+       "url": "https://images.unsplash.com/photo-1749700332258-775b1b6b9cd5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjB3b21hbiUyMHByb2Zlc3Npb25hbCUyMHNtaWxpbmd8ZW58MHx8fHwxNzc1ODQ3MDc5fDA&ixlib=rb-4.1.0&q=85",
+       "description": "Secondary portrait for About section."
+    },
+    "video_thumbnail": {
+      "url": "https://images.pexels.com/photos/7233320/pexels-photo-7233320.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Abstract beige canvas texture to serve as the background for the video placeholder."
+    },
+    "testimonial_1": {
+      "url": "https://images.unsplash.com/photo-1616154517532-0ae338354c63?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHw0fHxoYXBweSUyMGNvbmZpZGVudCUyMHdvbWFufGVufDB8fHx8MTc3NTg0NzA3OXww&ixlib=rb-4.1.0&q=85",
+      "description": "Smiling client for testimonial."
+    },
+    "testimonial_2": {
+      "url": "https://images.unsplash.com/photo-1626863905121-3b0c0ed7b94c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwyfHxoYXBweSUyMGNvbmZpZGVudCUyMHdvbWFufGVufDB8fHx8MTc3NTg0NzA3OXww&ixlib=rb-4.1.0&q=85",
+      "description": "Confident client for testimonial."
+    },
+    "testimonial_3": {
+      "url": "https://images.unsplash.com/photo-1736342181249-9e81c11737b8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwzfHxoYXBweSUyMGNvbmZpZGVudCUyMHdvbWFufGVufDB8fHx8MTc3NTg0NzA3OXww&ixlib=rb-4.1.0&q=85",
+      "description": "Happy clients for testimonial."
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly adhere to the selected fonts: Playfair Display for headings and Outfit for body. Import them via Google Fonts.",
+    "Implement smooth scrolling using lenis.",
+    "All navigation links and CTAs must have a 'data-testid' attribute.",
+    "Do not use generic blue/indigo default Tailwind colors. Use the custom color palette provided.",
+    "Use framer-motion for staggering entrance of Pricing cards, Testimonial cards, and Benefits.",
+    "The Hero image should not be fully covered by an overlay; it's a paid asset. Let it shine or place it next to the text. Use grid or flex to keep it clean.",
+    "For the Schedule section, display a simple, elegant list or table showing Mon, Wed, Sat at 7 PM IST.",
+    "For Pricing Section, emphasize the Standard tier visually (maybe slightly larger size, subtle golden border). All pricing must be in ₹ (INR).",
+    "Use lucide-react for icons (e.g. checks in pricing, stars in testimonials).",
+    "Use raw HTML/Tailwind for structural creative layouts, do not rely on Shadcn Card for everything to avoid a rigid generic look. Let it be flowy and feminine."
+  ]
+}
