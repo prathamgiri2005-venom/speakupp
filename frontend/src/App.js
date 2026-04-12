@@ -139,6 +139,47 @@ const testimonials = [
   }
 ];
 
+// ===== ZOOM MEETING CONFIGURATION =====
+// UPDATE THIS LINK WITH YOUR ACTUAL ZOOM MEETING LINK
+const ZOOM_MEETING_LINK = "https://zoom.us/j/YOUR_MEETING_ID";
+// =====================================
+
+// Schedule data - Update these as needed
+const schedule = [
+  {
+    id: 1,
+    day: "Monday",
+    time: "7:00 PM",
+    duration: "60 mins",
+    topic: "Confidence Building Basics",
+    status: "upcoming"
+  },
+  {
+    id: 2,
+    day: "Wednesday",
+    time: "7:00 PM",
+    duration: "60 mins",
+    topic: "Public Speaking Mastery",
+    status: "upcoming"
+  },
+  {
+    id: 3,
+    day: "Friday",
+    time: "7:00 PM",
+    duration: "60 mins",
+    topic: "Communication Skills",
+    status: "upcoming"
+  },
+  {
+    id: 4,
+    day: "Saturday",
+    time: "11:00 AM",
+    duration: "90 mins",
+    topic: "Weekend Special: Full Workshop",
+    status: "popular"
+  }
+];
+
 // Components
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -158,6 +199,7 @@ const Header = () => {
             <a href="#home" data-testid="nav-home" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Home</a>
             <a href="#about" data-testid="nav-about" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">About</a>
             <a href="#classes" data-testid="nav-classes" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Classes</a>
+            <a href="#schedule" data-testid="nav-schedule" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Schedule</a>
             <a href="#pricing" data-testid="nav-pricing" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Pricing</a>
             <a href="#contact" data-testid="nav-contact" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Contact</a>
           </nav>
@@ -193,6 +235,7 @@ const Header = () => {
           <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Home</a>
           <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">About</a>
           <a href="#classes" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Classes</a>
+          <a href="#schedule" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Schedule</a>
           <a href="#pricing" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Pricing</a>
           <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Contact</a>
           <a href="#pricing" onClick={() => setIsMenuOpen(false)} className="btn-primary px-8 py-3 rounded-full font-semibold">
@@ -618,6 +661,99 @@ const TestimonialsSection = () => {
   );
 };
 
+const ScheduleSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="schedule" className="py-20 md:py-28 bg-white" ref={ref}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Calendar className="w-4 h-4" /> Schedule
+          </span>
+          <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
+            Weekly Zoom Class Schedule
+          </h2>
+          <p className="text-text-secondary max-w-2xl mx-auto">
+            Join our live interactive sessions every week. All times are in IST (Indian Standard Time).
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {schedule.map((item, index) => (
+            <motion.div
+              key={item.id}
+              variants={fadeInUp}
+              data-testid={`schedule-card-${index}`}
+              className={`relative rounded-2xl p-6 bg-white border-2 transition-all hover:shadow-lg ${
+                item.status === 'popular' 
+                  ? 'border-turquoise-500 shadow-lg' 
+                  : 'border-gray-100 hover:border-turquoise-200'
+              }`}
+            >
+              {item.status === 'popular' && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-turquoise-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  Popular
+                </span>
+              )}
+              <div className="text-center">
+                <div className="w-14 h-14 bg-turquoise-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-7 h-7 text-turquoise-600" />
+                </div>
+                <h3 className="font-heading text-xl text-text-primary mb-1">{item.day}</h3>
+                <div className="flex items-center justify-center gap-2 text-turquoise-600 font-semibold mb-3">
+                  <Clock className="w-4 h-4" />
+                  <span>{item.time} IST</span>
+                </div>
+                <p className="text-sm text-text-secondary mb-2">{item.topic}</p>
+                <p className="text-xs text-gray-400">Duration: {item.duration}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Join Class CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-12 text-center"
+        >
+          <div className="bg-gradient-to-r from-turquoise-50 to-turquoise-100 rounded-2xl p-8 max-w-2xl mx-auto">
+            <h3 className="font-heading text-xl text-text-primary mb-3">Ready to Join?</h3>
+            <p className="text-text-secondary mb-6 text-sm">
+              Purchase a plan below and receive your Zoom meeting link instantly via WhatsApp/Email
+            </p>
+            <a 
+              href={ZOOM_MEETING_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="schedule-join-btn"
+              className="btn-primary px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2"
+            >
+              <Video className="w-5 h-5" /> Join Zoom Meeting
+            </a>
+            <p className="text-xs text-gray-500 mt-4">
+              * Meeting link will be active during scheduled class times
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 const PricingSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -946,6 +1082,7 @@ const Footer = () => {
               <li><a href="#home" className="text-gray-400 hover:text-turquoise-400 transition-colors">Home</a></li>
               <li><a href="#about" className="text-gray-400 hover:text-turquoise-400 transition-colors">About</a></li>
               <li><a href="#classes" className="text-gray-400 hover:text-turquoise-400 transition-colors">Classes</a></li>
+              <li><a href="#schedule" className="text-gray-400 hover:text-turquoise-400 transition-colors">Schedule</a></li>
               <li><a href="#pricing" className="text-gray-400 hover:text-turquoise-400 transition-colors">Pricing</a></li>
               <li><a href="#contact" className="text-gray-400 hover:text-turquoise-400 transition-colors">Contact</a></li>
             </ul>
@@ -1023,6 +1160,7 @@ function App() {
         <PurposeSection />
         <ClassesSection />
         <TestimonialsSection />
+        <ScheduleSection />
         <PricingSection />
         <CTASection />
         <ContactSection />
