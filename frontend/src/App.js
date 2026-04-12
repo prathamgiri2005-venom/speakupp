@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { 
   Check, 
@@ -7,15 +7,25 @@ import {
   Calendar, 
   Clock, 
   Mail, 
+  Phone,
   Instagram, 
   Linkedin, 
   Youtube,
+  Facebook,
   ChevronRight,
   Sparkles,
   Heart,
   Users,
   MessageCircle,
-  ArrowRight
+  ArrowRight,
+  Video,
+  Zap,
+  Target,
+  Award,
+  Menu,
+  X,
+  MapPin,
+  Send
 } from 'lucide-react';
 import Lenis from '@studio-freight/lenis';
 import './App.css';
@@ -40,133 +50,165 @@ const staggerContainer = {
   }
 };
 
-// Sandhya's actual photos
-const HERO_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/o2qa7qs8_WhatsApp%20Image%202026-04-07%20at%208.53.56%20PM.jpeg"; // Professional selfie in pink blazer
-const ABOUT_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/dn6ta4hk_WhatsApp%20Image%202026-04-07%20at%208.53.57%20PM.jpeg"; // Speaking at corporate event
-const VIDEO_THUMBNAIL = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/qkrwthls_WhatsApp%20Image%202026-04-07%20at%208.53.57%20PM%20%282%29.jpeg"; // Event photo sparkly dress
-const EVENT_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/1dnv6cac_WhatsApp%20Image%202026-04-07%20at%208.53.57%20PM%20%281%29.jpeg"; // Event photo with arm raised
+// Images - Using uploaded photos
+const HERO_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/ex3lfp0u_p.jpeg"; // Red dress at podium
+const ABOUT_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/b579f3lu_q.jpeg"; // Professional blazer photo
+const VIDEO_URL = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/5luqjwvo_video.mp4";
 
-// Testimonial images
-const TESTIMONIAL_IMAGES = [
-  "https://images.unsplash.com/photo-1616154517532-0ae338354c63?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHw0fHxoYXBweSUyMGNvbmZpZGVudCUyMHdvbWFufGVufDB8fHx8MTc3NTg0NzA3OXww&ixlib=rb-4.1.0&q=85",
-  "https://images.unsplash.com/photo-1626863905121-3b0c0ed7b94c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwyfHxoYXBweSUyMGNvbmZpZGVudCUyMHdvbWFufGVufDB8fHx8MTc3NTg0NzA3OXww&ixlib=rb-4.1.0&q=85",
-  "https://images.unsplash.com/photo-1736342181249-9e81c11737b8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwzfHxoYXBweSUyMGNvbmZpZGVudCUyMHdvbWFufGVufDB8fHx8MTc3NTg0NzA3OXww&ixlib=rb-4.1.0&q=85"
+// Previous photos for gallery
+const GALLERY_IMAGES = [
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/o2qa7qs8_WhatsApp%20Image%202026-04-07%20at%208.53.56%20PM.jpeg",
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/dn6ta4hk_WhatsApp%20Image%202026-04-07%20at%208.53.57%20PM.jpeg",
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/qkrwthls_WhatsApp%20Image%202026-04-07%20at%208.53.57%20PM%20%282%29.jpeg"
 ];
 
 // Data
 const benefits = [
-  { icon: Sparkles, title: "Build Unshakable Confidence", description: "Develop inner strength that stays with you in every situation" },
-  { icon: MessageCircle, title: "Improve Communication Skills", description: "Express yourself clearly and connect authentically with others" },
-  { icon: Heart, title: "Overcome Fear & Self-Doubt", description: "Break free from limiting beliefs that hold you back" },
-  { icon: Users, title: "Become Your Best Version", description: "Unlock your full potential and live life on your terms" }
+  { icon: Zap, title: "Build Confidence", description: "Develop unshakeable self-belief and stage presence" },
+  { icon: MessageCircle, title: "Master Communication", description: "Learn to express yourself clearly and effectively" },
+  { icon: Target, title: "Achieve Goals", description: "Set and accomplish your personal and professional goals" },
+  { icon: Award, title: "Transform Life", description: "Become the best version of yourself" }
 ];
 
 const pricingPlans = [
   {
-    id: "basic",
-    name: "Basic",
-    price: "₹999",
-    period: "/month",
+    id: "student",
+    name: "Student Plan",
+    price: "₹199",
+    period: "/session",
     features: [
-      "2 group Zoom sessions per month",
-      "Access to session recordings",
-      "Email support"
+      "Live Zoom group session",
+      "Interactive Q&A",
+      "Session recordings access",
+      "WhatsApp community access",
+      "Certificate of completion"
     ],
-    popular: false
+    popular: false,
+    color: "turquoise"
   },
   {
-    id: "standard",
-    name: "Standard",
-    price: "₹1,999",
-    period: "/month",
+    id: "regular",
+    name: "Regular Plan",
+    price: "₹299",
+    period: "/session",
     features: [
-      "Weekly group Zoom sessions",
-      "Access to community support",
-      "Session recordings",
-      "Priority email support"
-    ],
-    popular: true
-  },
-  {
-    id: "premium",
-    name: "Premium",
-    price: "₹3,999",
-    period: "/month",
-    features: [
-      "Weekly group sessions",
-      "1 private 1-on-1 session per month",
-      "Priority support",
+      "Everything in Student Plan",
+      "Priority seating in sessions",
+      "1-on-1 doubt clearing",
       "Personalized feedback",
-      "Exclusive resources"
+      "Exclusive resources & materials",
+      "Direct mentor access"
     ],
-    popular: false
+    popular: true,
+    color: "turquoise"
   }
-];
-
-const schedule = [
-  { day: "Monday", time: "7:00 PM IST" },
-  { day: "Wednesday", time: "7:00 PM IST" },
-  { day: "Saturday", time: "7:00 PM IST" }
 ];
 
 const testimonials = [
   {
     id: 1,
     name: "Priya Sharma",
-    role: "Marketing Executive",
-    text: "Sandhya's classes have completely transformed how I present myself at work. I went from dreading meetings to confidently leading them!",
-    rating: 5
+    role: "College Student",
+    text: "Speakupp transformed my public speaking anxiety into confidence. I now lead college presentations with ease!",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
   },
   {
     id: 2,
-    name: "Anjali Mehta",
-    role: "Entrepreneur",
-    text: "After just 3 months with Sandhya, I successfully pitched to investors and secured funding. Her techniques are life-changing.",
-    rating: 5
+    name: "Rahul Verma",
+    role: "Working Professional",
+    text: "The Zoom sessions fit perfectly in my busy schedule. Sandhya's guidance helped me ace my job interviews!",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop"
   },
   {
     id: 3,
-    name: "Kavitha Reddy",
-    role: "Software Engineer",
-    text: "I used to struggle with public speaking. Now I regularly present at tech conferences. Thank you, Sandhya!",
-    rating: 5
+    name: "Anjali Singh",
+    role: "Entrepreneur",
+    text: "Best investment I made for myself. My confidence in business meetings has grown tremendously.",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop"
+  },
+  {
+    id: 4,
+    name: "Vikash Kumar",
+    role: "MBA Student",
+    text: "The practical exercises and real-time feedback make Speakupp unique. Highly recommended!",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop"
   }
 ];
 
 // Components
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-[rgba(45,42,38,0.05)]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-turquoise-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <a href="#" data-testid="logo" className="font-heading text-2xl font-semibold text-text-primary">
-            Speakupp
+          <a href="#" data-testid="logo" className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-turquoise-500 to-turquoise-600 rounded-xl flex items-center justify-center">
+              <MessageCircle className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-heading text-xl font-bold text-text-primary">Speakupp</span>
           </a>
+          
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#about" data-testid="nav-about" className="text-text-secondary hover:text-brand-primary transition-colors font-body">About</a>
-            <a href="#benefits" data-testid="nav-benefits" className="text-text-secondary hover:text-brand-primary transition-colors font-body">Benefits</a>
-            <a href="#pricing" data-testid="nav-pricing" className="text-text-secondary hover:text-brand-primary transition-colors font-body">Pricing</a>
-            <a href="#schedule" data-testid="nav-schedule" className="text-text-secondary hover:text-brand-primary transition-colors font-body">Schedule</a>
-            <a href="#testimonials" data-testid="nav-testimonials" className="text-text-secondary hover:text-brand-primary transition-colors font-body">Reviews</a>
+            <a href="#home" data-testid="nav-home" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Home</a>
+            <a href="#about" data-testid="nav-about" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">About</a>
+            <a href="#classes" data-testid="nav-classes" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Classes</a>
+            <a href="#pricing" data-testid="nav-pricing" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Pricing</a>
+            <a href="#contact" data-testid="nav-contact" className="text-text-secondary hover:text-turquoise-600 transition-colors font-medium">Contact</a>
           </nav>
-          <a 
-            href="#pricing" 
-            data-testid="header-cta"
-            className="btn-primary px-6 py-2.5 rounded-full font-body font-medium text-sm"
-          >
-            Join a Class
-          </a>
+          
+          <div className="flex items-center gap-4">
+            <a 
+              href="#pricing" 
+              data-testid="header-cta"
+              className="hidden sm:inline-flex btn-primary px-6 py-2.5 rounded-full font-semibold text-sm items-center gap-2"
+            >
+              Join Zoom Class <Video className="w-4 h-4" />
+            </a>
+            <button 
+              className="md:hidden p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              data-testid="mobile-menu-btn"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="mobile-menu md:hidden">
+          <button 
+            className="absolute top-4 right-4 p-2"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Home</a>
+          <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">About</a>
+          <a href="#classes" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Classes</a>
+          <a href="#pricing" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Pricing</a>
+          <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Contact</a>
+          <a href="#pricing" onClick={() => setIsMenuOpen(false)} className="btn-primary px-8 py-3 rounded-full font-semibold">
+            Join Zoom Class
+          </a>
+        </div>
+      )}
     </header>
   );
 };
 
 const HeroSection = () => {
   return (
-    <section id="hero" className="gradient-hero min-h-screen pt-24 md:pt-32 pb-16 md:pb-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <section id="home" className="min-h-screen pt-20 md:pt-24 pb-16 bg-gradient-to-br from-turquoise-50 via-white to-turquoise-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-6rem)]">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -175,37 +217,54 @@ const HeroSection = () => {
           >
             <motion.span 
               variants={fadeInUp}
-              className="inline-block text-xs tracking-[0.2em] uppercase font-bold text-brand-primary mb-4"
+              className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-6"
             >
-              Confidence Coach
+              <Sparkles className="w-4 h-4" /> Online Motivation & Coaching
             </motion.span>
             <motion.h1 
               variants={fadeInUp}
               className="font-heading text-4xl sm:text-5xl lg:text-6xl text-text-primary leading-tight mb-6"
             >
-              Unlock Your Confidence and <span className="text-brand-primary italic">Transform</span> Your Life
+              Transform Your Life with{' '}
+              <span className="text-turquoise-600">Expert Guidance</span>
             </motion.h1>
             <motion.p 
               variants={fadeInUp}
-              className="font-body text-lg text-text-secondary mb-8 max-w-lg"
+              className="text-lg text-text-secondary mb-8 max-w-lg leading-relaxed"
             >
-              Join Sandhya's live Zoom classes and become your most confident self. With over 7 years of experience helping hundreds transform their lives.
+              Join Speakupp's live Zoom sessions and unlock your true potential. Build confidence, master communication, and become the best version of yourself with expert coaching.
             </motion.p>
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
               <a 
                 href="#pricing" 
                 data-testid="hero-cta-primary"
-                className="btn-primary px-8 py-4 rounded-full font-body font-semibold text-center inline-flex items-center justify-center gap-2"
+                className="btn-primary px-8 py-4 rounded-full font-semibold text-center inline-flex items-center justify-center gap-2"
               >
-                Join a Class <ArrowRight className="w-5 h-5" />
+                Join Zoom Class <ArrowRight className="w-5 h-5" />
               </a>
               <a 
                 href="#video" 
                 data-testid="hero-cta-secondary"
-                className="px-8 py-4 rounded-full font-body font-semibold text-text-primary border-2 border-border-medium hover:border-brand-primary transition-colors text-center inline-flex items-center justify-center gap-2"
+                className="btn-secondary px-8 py-4 rounded-full font-semibold text-center inline-flex items-center justify-center gap-2"
               >
-                <Play className="w-5 h-5" /> Watch Intro
+                <Play className="w-5 h-5" /> Watch Introduction
               </a>
+            </motion.div>
+            
+            {/* Stats */}
+            <motion.div variants={fadeInUp} className="flex flex-wrap gap-8 mt-12">
+              <div className="text-center">
+                <p className="font-heading text-3xl font-bold text-turquoise-600">800+</p>
+                <p className="text-sm text-text-secondary">Events Hosted</p>
+              </div>
+              <div className="text-center">
+                <p className="font-heading text-3xl font-bold text-turquoise-600">5000+</p>
+                <p className="text-sm text-text-secondary">Lives Transformed</p>
+              </div>
+              <div className="text-center">
+                <p className="font-heading text-3xl font-bold text-turquoise-600">7+</p>
+                <p className="text-sm text-text-secondary">Years Experience</p>
+              </div>
             </motion.div>
           </motion.div>
           
@@ -216,10 +275,10 @@ const HeroSection = () => {
             className="order-1 lg:order-2 relative"
           >
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-br from-brand-primary/20 to-brand-accent/20 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-br from-turquoise-400/30 to-turquoise-600/30 rounded-3xl blur-2xl"></div>
               <img 
                 src={HERO_IMAGE}
-                alt="Sandhya - Confidence Coach"
+                alt="Sandhya - Motivation Coach"
                 data-testid="hero-image"
                 className="relative w-full max-w-md mx-auto rounded-2xl shadow-2xl object-cover aspect-[4/5]"
               />
@@ -228,135 +287,20 @@ const HeroSection = () => {
             <motion.div 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-4 -left-4 md:bottom-8 md:-left-8 bg-white rounded-2xl p-4 shadow-xl"
+              className="absolute -bottom-4 -left-4 md:bottom-8 md:-left-8 bg-white rounded-2xl p-4 shadow-xl border border-turquoise-100"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-brand-primary/10 rounded-full flex items-center justify-center">
-                  <Users className="w-6 h-6 text-brand-primary" />
+                <div className="w-12 h-12 bg-turquoise-100 rounded-full flex items-center justify-center">
+                  <Video className="w-6 h-6 text-turquoise-600" />
                 </div>
                 <div>
-                  <p className="font-heading text-2xl font-semibold text-text-primary">800+</p>
-                  <p className="text-sm text-text-secondary">Events Hosted</p>
+                  <p className="font-heading text-lg font-bold text-text-primary">Live Zoom</p>
+                  <p className="text-sm text-text-secondary">Interactive Sessions</p>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         </div>
-      </div>
-    </section>
-  );
-};
-
-const AboutSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section id="about" className="section-padding bg-primary-bg-secondary" ref={ref}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <div className="absolute -inset-4 bg-gradient-to-tr from-brand-accent/30 to-transparent rounded-3xl"></div>
-            <img 
-              src={ABOUT_IMAGE}
-              alt="Sandhya Bhandari"
-              data-testid="about-image"
-              className="relative w-full max-w-lg rounded-2xl shadow-xl object-cover aspect-[4/5]"
-            />
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="inline-block text-xs tracking-[0.2em] uppercase font-bold text-brand-primary mb-4">
-              About Sandhya
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-6">
-              Your Guide to <span className="italic text-brand-primary">Unshakeable</span> Confidence
-            </h2>
-            <p className="font-body text-text-secondary mb-6 leading-relaxed">
-              Sandhya Bhandari is one of the leading anchors and confidence coaches in Delhi/NCR. With a Master's degree in Journalism and Mass Communication, she has dedicated over 7 years to helping individuals overcome self-doubt, fear, and anxiety.
-            </p>
-            <p className="font-body text-text-secondary mb-8 leading-relaxed">
-              Having hosted more than 800 events across the country, Sandhya brings unmatched expertise in communication, stage presence, and personal transformation. Her mission is to inspire and transform lives through her powerful coaching and ability to connect with people of all ages.
-            </p>
-            <div className="flex flex-wrap gap-6">
-              <div className="text-center">
-                <p className="font-heading text-3xl font-semibold text-brand-primary">7+</p>
-                <p className="text-sm text-text-secondary">Years Experience</p>
-              </div>
-              <div className="text-center">
-                <p className="font-heading text-3xl font-semibold text-brand-primary">800+</p>
-                <p className="text-sm text-text-secondary">Events Hosted</p>
-              </div>
-              <div className="text-center">
-                <p className="font-heading text-3xl font-semibold text-brand-primary">500+</p>
-                <p className="text-sm text-text-secondary">Lives Transformed</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const BenefitsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section id="benefits" className="section-padding bg-primary-bg" ref={ref}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block text-xs tracking-[0.2em] uppercase font-bold text-brand-primary mb-4">
-            Why Join
-          </span>
-          <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            Transform Every Area of Your Life
-          </h2>
-          <p className="font-body text-text-secondary max-w-2xl mx-auto">
-            Discover the profound benefits of building authentic confidence
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
-        >
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={index}
-              variants={fadeInUp}
-              data-testid={`benefit-card-${index}`}
-              className="card p-8 md:p-10 group hover:border-brand-primary/30"
-            >
-              <div className="w-14 h-14 bg-brand-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-primary/20 transition-colors">
-                <benefit.icon className="w-7 h-7 text-brand-primary" />
-              </div>
-              <h3 className="font-heading text-xl sm:text-2xl text-text-primary mb-3">
-                {benefit.title}
-              </h3>
-              <p className="font-body text-text-secondary">
-                {benefit.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
@@ -367,45 +311,307 @@ const VideoSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="video" className="section-padding bg-primary-bg-secondary" ref={ref}>
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+    <section id="video" className="py-20 md:py-28 bg-white" ref={ref}>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="inline-block text-xs tracking-[0.2em] uppercase font-bold text-brand-primary mb-4">
-            Introduction
+          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Play className="w-4 h-4" /> Introduction
           </span>
-          <h2 className="font-heading text-3xl sm:text-4xl text-text-primary">
-            Meet Sandhya
+          <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
+            Meet Your Mentor
           </h2>
+          <p className="text-text-secondary max-w-2xl mx-auto">
+            Watch this short introduction to understand how Speakupp can transform your life
+          </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video group cursor-pointer"
+          className="video-container"
           data-testid="video-container"
         >
-          <img 
-            src={VIDEO_THUMBNAIL}
-            alt="Meet Sandhya - Video Thumbnail"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-text-primary/30 group-hover:bg-text-primary/40 transition-colors"></div>
-          <button 
-            data-testid="play-video-btn"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-24 md:h-24 play-button-glass rounded-full flex items-center justify-center group-hover:scale-110 transition-transform"
+          <video 
+            controls 
+            poster={ABOUT_IMAGE}
+            className="w-full rounded-2xl"
+            data-testid="intro-video"
           >
-            <Play className="w-8 h-8 md:w-10 md:h-10 text-white fill-white ml-1" />
-          </button>
-          <div className="absolute bottom-6 left-6 text-white">
-            <p className="font-body text-sm opacity-80">Watch the full introduction</p>
-            <p className="font-heading text-xl">Discover your potential</p>
-          </div>
+            <source src={VIDEO_URL} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const AboutSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="about" className="py-20 md:py-28 bg-turquoise-50" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <div className="absolute -inset-4 bg-gradient-to-tr from-turquoise-400/20 to-transparent rounded-3xl"></div>
+            <img 
+              src={ABOUT_IMAGE}
+              alt="Sandhya - About"
+              data-testid="about-image"
+              className="relative w-full max-w-lg rounded-2xl shadow-xl object-cover aspect-[4/5]"
+            />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              <Heart className="w-4 h-4" /> About the Mentor
+            </span>
+            <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-6">
+              Hi, I'm <span className="text-turquoise-600">Sandhya</span>
+            </h2>
+            <p className="text-text-secondary mb-6 leading-relaxed">
+              I'm a professional anchor, motivational speaker, and confidence coach with over 7 years of experience in transforming lives. With a Master's degree in Journalism and Mass Communication, I've hosted 800+ events across India.
+            </p>
+            <p className="text-text-secondary mb-8 leading-relaxed">
+              My mission is to help you overcome self-doubt, build unshakeable confidence, and master the art of communication. Through Speakupp's interactive Zoom sessions, I provide practical techniques that create real, lasting transformation.
+            </p>
+            
+            {/* Features */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-turquoise-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <benefit.icon className="w-5 h-5 text-turquoise-600" />
+                  </div>
+                  <span className="text-text-secondary font-medium text-sm">{benefit.title}</span>
+                </div>
+              ))}
+            </div>
+
+            <a 
+              href="#pricing" 
+              data-testid="about-cta"
+              className="btn-primary px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2"
+            >
+              Start Your Journey <ChevronRight className="w-5 h-5" />
+            </a>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const PurposeSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section className="py-20 md:py-28 bg-white" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Target className="w-4 h-4" /> Our Purpose
+          </span>
+          <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
+            Why Choose Speakupp?
+          </h2>
+          <p className="text-text-secondary max-w-2xl mx-auto">
+            We're dedicated to helping you unlock your full potential through expert guidance and practical training
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {benefits.map((benefit, index) => (
+            <motion.div
+              key={index}
+              variants={fadeInUp}
+              data-testid={`purpose-card-${index}`}
+              className="card p-6 text-center group"
+            >
+              <div className="w-16 h-16 bg-turquoise-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-turquoise-200 transition-colors">
+                <benefit.icon className="w-8 h-8 text-turquoise-600" />
+              </div>
+              <h3 className="font-heading text-xl text-text-primary mb-2">
+                {benefit.title}
+              </h3>
+              <p className="text-text-secondary text-sm">
+                {benefit.description}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const ClassesSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="classes" className="py-20 md:py-28 bg-turquoise-gradient text-white" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="inline-flex items-center gap-2 bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              <Video className="w-4 h-4" /> Live Zoom Classes
+            </span>
+            <h2 className="font-heading text-3xl sm:text-4xl mb-6">
+              Interactive Online Sessions
+            </h2>
+            <p className="text-white/90 mb-6 leading-relaxed">
+              Our classes are conducted via Zoom, allowing you to learn from anywhere. Get real-time feedback, participate in interactive exercises, and connect with a community of like-minded individuals.
+            </p>
+            
+            <ul className="space-y-4 mb-8">
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4" />
+                </div>
+                <span>Live interactive sessions with Q&A</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4" />
+                </div>
+                <span>Practical exercises and real-time feedback</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4" />
+                </div>
+                <span>Access to recordings for revision</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4" />
+                </div>
+                <span>WhatsApp community for ongoing support</span>
+              </li>
+            </ul>
+
+            <a 
+              href="#pricing" 
+              data-testid="classes-cta"
+              className="bg-white text-turquoise-600 px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2 hover:bg-turquoise-50 transition-colors"
+            >
+              Join Class Now <ArrowRight className="w-5 h-5" />
+            </a>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="grid grid-cols-2 gap-4"
+          >
+            {GALLERY_IMAGES.map((img, index) => (
+              <div key={index} className={`${index === 0 ? 'col-span-2' : ''}`}>
+                <img 
+                  src={img}
+                  alt={`Session ${index + 1}`}
+                  className="w-full h-48 md:h-56 object-cover rounded-xl shadow-lg"
+                />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const TestimonialsSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="testimonials" className="py-20 md:py-28 bg-white" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Star className="w-4 h-4" /> Testimonials
+          </span>
+          <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
+            What Our Students Say
+          </h2>
+          <p className="text-text-secondary max-w-2xl mx-auto">
+            Real stories from real people who transformed their lives with Speakupp
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={testimonial.id}
+              variants={fadeInUp}
+              data-testid={`testimonial-card-${index}`}
+              className="testimonial-card"
+            >
+              <div className="flex gap-1 mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                ))}
+              </div>
+              <p className="text-text-secondary mb-6 text-sm leading-relaxed">
+                "{testimonial.text}"
+              </p>
+              <div className="flex items-center gap-3">
+                <img 
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <p className="font-semibold text-text-primary text-sm">{testimonial.name}</p>
+                  <p className="text-text-secondary text-xs">{testimonial.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
@@ -417,22 +623,22 @@ const PricingSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="pricing" className="section-padding bg-primary-bg" ref={ref}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="pricing" className="py-20 md:py-28 bg-turquoise-50" ref={ref}>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-xs tracking-[0.2em] uppercase font-bold text-brand-primary mb-4">
-            Pricing
+          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Zap className="w-4 h-4" /> Pricing
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            Choose Your Journey
+            Choose Your Plan
           </h2>
-          <p className="font-body text-text-secondary max-w-2xl mx-auto">
-            Flexible plans designed to fit your needs and budget
+          <p className="text-text-secondary max-w-2xl mx-auto">
+            Affordable plans designed for students and professionals alike
           </p>
         </motion.div>
 
@@ -440,212 +646,269 @@ const PricingSection = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto"
         >
           {pricingPlans.map((plan, index) => (
             <motion.div
               key={plan.id}
               variants={fadeInUp}
               data-testid={`pricing-card-${plan.id}`}
-              className={`rounded-2xl p-8 md:p-10 relative ${
+              className={`rounded-2xl p-8 md:p-10 relative bg-white ${
                 plan.popular 
-                  ? 'card-popular bg-white scale-105' 
-                  : 'card bg-white'
+                  ? 'card-popular' 
+                  : 'border border-turquoise-100 shadow-lg'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-brand-primary text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                    Most Popular
-                  </span>
+                <div className="popular-badge">
+                  Most Popular
                 </div>
               )}
               <div className="text-center mb-8">
                 <h3 className="font-heading text-2xl text-text-primary mb-2">{plan.name}</h3>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="font-heading text-4xl sm:text-5xl font-semibold text-text-primary">{plan.price}</span>
-                  <span className="text-text-secondary font-body">{plan.period}</span>
+                  <span className="font-heading text-5xl font-bold text-turquoise-600">{plan.price}</span>
+                  <span className="text-text-secondary">{plan.period}</span>
                 </div>
               </div>
               <ul className="space-y-4 mb-8">
                 {plan.features.map((feature, fIndex) => (
                   <li key={fIndex} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                    <span className="font-body text-text-secondary">{feature}</span>
+                    <div className="w-5 h-5 bg-turquoise-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="w-3 h-3 text-turquoise-600" />
+                    </div>
+                    <span className="text-text-secondary text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <a
-                href="#contact"
+              <button
                 data-testid={`pricing-cta-${plan.id}`}
-                className={`block w-full py-4 rounded-full font-body font-semibold text-center transition-all ${
+                className={`block w-full py-4 rounded-full font-semibold text-center transition-all ${
                   plan.popular
                     ? 'btn-primary'
-                    : 'bg-primary-bg-secondary text-text-primary hover:bg-brand-primary hover:text-white'
+                    : 'bg-turquoise-100 text-turquoise-700 hover:bg-turquoise-200'
                 }`}
               >
-                Get Started
-              </a>
+                Buy Now
+              </button>
             </motion.div>
           ))}
         </motion.div>
-      </div>
-    </section>
-  );
-};
 
-const ScheduleSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section id="schedule" className="section-padding bg-primary-bg-secondary" ref={ref}>
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+        {/* Razorpay Info Box */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-12 p-6 bg-white rounded-xl border border-turquoise-200 max-w-2xl mx-auto"
         >
-          <span className="inline-block text-xs tracking-[0.2em] uppercase font-bold text-brand-primary mb-4">
-            Schedule
-          </span>
-          <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            Weekly Class Timings
-          </h2>
-          <p className="font-body text-text-secondary">
-            All sessions are conducted via Zoom
+          <p className="text-center text-text-secondary text-sm">
+            <strong className="text-turquoise-600">Secure Payment:</strong> All payments are processed securely via Razorpay. After payment, you'll receive Zoom class link via email/WhatsApp.
           </p>
         </motion.div>
-
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6"
-        >
-          {schedule.map((item, index) => (
-            <motion.div
-              key={index}
-              variants={fadeInUp}
-              data-testid={`schedule-card-${index}`}
-              className="card p-6 md:p-8 text-center hover:border-brand-primary/30"
-            >
-              <div className="w-12 h-12 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-6 h-6 text-brand-primary" />
-              </div>
-              <h3 className="font-heading text-xl text-text-primary mb-2">{item.day}</h3>
-              <div className="flex items-center justify-center gap-2 text-text-secondary">
-                <Clock className="w-4 h-4" />
-                <span className="font-body">{item.time}</span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-          className="text-center mt-8 text-text-secondary font-body text-sm"
-        >
-          All times are in Indian Standard Time (IST)
-        </motion.p>
       </div>
     </section>
   );
 };
 
-const TestimonialsSection = () => {
+const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Form submission logic
+    alert('Thank you for your message! We will get back to you soon.');
+    setFormData({ name: '', email: '', message: '' });
+  };
 
   return (
-    <section id="testimonials" className="section-padding bg-primary-bg" ref={ref}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="contact" className="py-20 md:py-28 bg-white" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-xs tracking-[0.2em] uppercase font-bold text-brand-primary mb-4">
-            Testimonials
+          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Mail className="w-4 h-4" /> Contact
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            What My Clients Say
+            Get In Touch
           </h2>
-          <p className="font-body text-text-secondary max-w-2xl mx-auto">
-            Real stories from real people who transformed their lives
+          <p className="text-text-secondary max-w-2xl mx-auto">
+            Have questions? We'd love to hear from you
           </p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
-        >
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              variants={fadeInUp}
-              data-testid={`testimonial-card-${index}`}
-              className="card p-8 md:p-10"
-            >
-              <div className="flex gap-1 mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-brand-primary fill-brand-primary" />
-                ))}
-              </div>
-              <p className="font-body text-text-secondary mb-8 leading-relaxed italic">
-                "{testimonial.text}"
-              </p>
-              <div className="flex items-center gap-4">
-                <img 
-                  src={TESTIMONIAL_IMAGES[index]}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h3 className="font-heading text-2xl text-text-primary mb-6">Contact Information</h3>
+            
+            <div className="space-y-6">
+              <a 
+                href="tel:+919599539864" 
+                data-testid="contact-phone"
+                className="flex items-center gap-4 p-4 bg-turquoise-50 rounded-xl hover:bg-turquoise-100 transition-colors"
+              >
+                <div className="w-12 h-12 bg-turquoise-500 rounded-xl flex items-center justify-center">
+                  <Phone className="w-6 h-6 text-white" />
+                </div>
                 <div>
-                  <p className="font-heading text-lg text-text-primary">{testimonial.name}</p>
-                  <p className="font-body text-sm text-text-secondary">{testimonial.role}</p>
+                  <p className="text-sm text-text-secondary">Phone</p>
+                  <p className="font-semibold text-text-primary">+91 9599 539864</p>
+                </div>
+              </a>
+              
+              <a 
+                href="mailto:Speakupp3@gmail.com" 
+                data-testid="contact-email"
+                className="flex items-center gap-4 p-4 bg-turquoise-50 rounded-xl hover:bg-turquoise-100 transition-colors"
+              >
+                <div className="w-12 h-12 bg-turquoise-500 rounded-xl flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm text-text-secondary">Email</p>
+                  <p className="font-semibold text-text-primary">Speakupp3@gmail.com</p>
+                </div>
+              </a>
+              
+              <div className="flex items-center gap-4 p-4 bg-turquoise-50 rounded-xl">
+                <div className="w-12 h-12 bg-turquoise-500 rounded-xl flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm text-text-secondary">Location</p>
+                  <p className="font-semibold text-text-primary">Ghaziabad, Uttar Pradesh</p>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            </div>
+
+            {/* Social Links */}
+            <div className="mt-8">
+              <p className="text-text-secondary mb-4">Follow us on social media</p>
+              <div className="flex gap-3">
+                <a 
+                  href="https://instagram.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  data-testid="social-instagram"
+                  className="w-12 h-12 bg-turquoise-100 rounded-xl flex items-center justify-center hover:bg-turquoise-500 hover:text-white transition-all text-turquoise-600"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a 
+                  href="https://facebook.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  data-testid="social-facebook"
+                  className="w-12 h-12 bg-turquoise-100 rounded-xl flex items-center justify-center hover:bg-turquoise-500 hover:text-white transition-all text-turquoise-600"
+                >
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a 
+                  href="https://linkedin.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  data-testid="social-linkedin"
+                  className="w-12 h-12 bg-turquoise-100 rounded-xl flex items-center justify-center hover:bg-turquoise-500 hover:text-white transition-all text-turquoise-600"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a 
+                  href="https://youtube.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  data-testid="social-youtube"
+                  className="w-12 h-12 bg-turquoise-100 rounded-xl flex items-center justify-center hover:bg-turquoise-500 hover:text-white transition-all text-turquoise-600"
+                >
+                  <Youtube className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form">
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-2">Your Name</label>
+                <input 
+                  type="text"
+                  required
+                  placeholder="Enter your name"
+                  className="form-input"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  data-testid="contact-name-input"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-2">Email Address</label>
+                <input 
+                  type="email"
+                  required
+                  placeholder="Enter your email"
+                  className="form-input"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  data-testid="contact-email-input"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-2">Message</label>
+                <textarea 
+                  rows="5"
+                  required
+                  placeholder="How can we help you?"
+                  className="form-input resize-none"
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  data-testid="contact-message-input"
+                ></textarea>
+              </div>
+              <button 
+                type="submit"
+                data-testid="contact-submit-btn"
+                className="btn-primary w-full py-4 rounded-xl font-semibold inline-flex items-center justify-center gap-2"
+              >
+                Send Message <Send className="w-5 h-5" />
+              </button>
+            </form>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
 const CTASection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="contact" className="section-padding bg-gradient-to-br from-brand-primary to-brand-primary-hover" ref={ref}>
-      <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+    <section className="py-16 md:py-20 bg-turquoise-gradient text-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="font-heading text-3xl sm:text-4xl mb-6">
+          Ready to Transform Your Life?
+        </h2>
+        <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+          Join thousands of others who have already started their journey to confidence and success with Speakupp.
+        </p>
+        <a
+          href="#pricing"
+          data-testid="cta-join"
+          className="inline-flex items-center gap-2 bg-white text-turquoise-600 px-10 py-4 rounded-full font-semibold text-lg hover:bg-turquoise-50 transition-colors shadow-lg"
         >
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
-            Start Your Confidence Journey Today
-          </h2>
-          <p className="font-body text-white/80 text-lg mb-10 max-w-2xl mx-auto">
-            Take the first step towards becoming your most confident self. Join hundreds of others who have already transformed their lives.
-          </p>
-          <a
-            href="#pricing"
-            data-testid="cta-book-spot"
-            className="inline-flex items-center gap-2 bg-white text-brand-primary px-10 py-4 rounded-full font-body font-semibold text-lg hover:bg-primary-bg transition-colors hover:shadow-xl"
-          >
-            Book Your Spot <ChevronRight className="w-5 h-5" />
-          </a>
-        </motion.div>
+          Join Zoom Class Today <ArrowRight className="w-5 h-5" />
+        </a>
       </div>
     </section>
   );
@@ -653,76 +916,76 @@ const CTASection = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-primary-bg-secondary py-16">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <footer className="bg-gray-900 text-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-2">
-            <a href="#" className="font-heading text-2xl font-semibold text-text-primary mb-4 block">
-              Speakupp
+            <a href="#" className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 bg-turquoise-500 rounded-xl flex items-center justify-center">
+                <MessageCircle className="w-5 h-5 text-white" />
+              </div>
+              <span className="font-heading text-xl font-bold">Speakupp</span>
             </a>
-            <p className="font-body text-text-secondary mb-6 max-w-sm">
-              Empowering individuals to unlock their confidence and transform their lives through expert coaching and guidance.
+            <p className="text-gray-400 mb-6 max-w-sm">
+              Empowering individuals to build confidence, master communication, and transform their lives through expert coaching.
             </p>
-            <div className="flex gap-4">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                data-testid="social-instagram"
-                className="w-10 h-10 bg-border-subtle rounded-full flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors text-text-secondary"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://linkedin.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                data-testid="social-linkedin"
-                className="w-10 h-10 bg-border-subtle rounded-full flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors text-text-secondary"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                data-testid="social-youtube"
-                className="w-10 h-10 bg-border-subtle rounded-full flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors text-text-secondary"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-            </div>
+            <a 
+              href="https://speakupp.in" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-turquoise-400 hover:text-turquoise-300 font-medium"
+              data-testid="footer-domain"
+            >
+              www.speakupp.in
+            </a>
           </div>
           
           <div>
-            <h4 className="font-heading text-lg text-text-primary mb-4">Quick Links</h4>
+            <h4 className="font-heading text-lg mb-4">Quick Links</h4>
             <ul className="space-y-3">
-              <li><a href="#about" className="font-body text-text-secondary hover:text-brand-primary transition-colors">About</a></li>
-              <li><a href="#benefits" className="font-body text-text-secondary hover:text-brand-primary transition-colors">Benefits</a></li>
-              <li><a href="#pricing" className="font-body text-text-secondary hover:text-brand-primary transition-colors">Pricing</a></li>
-              <li><a href="#testimonials" className="font-body text-text-secondary hover:text-brand-primary transition-colors">Testimonials</a></li>
+              <li><a href="#home" className="text-gray-400 hover:text-turquoise-400 transition-colors">Home</a></li>
+              <li><a href="#about" className="text-gray-400 hover:text-turquoise-400 transition-colors">About</a></li>
+              <li><a href="#classes" className="text-gray-400 hover:text-turquoise-400 transition-colors">Classes</a></li>
+              <li><a href="#pricing" className="text-gray-400 hover:text-turquoise-400 transition-colors">Pricing</a></li>
+              <li><a href="#contact" className="text-gray-400 hover:text-turquoise-400 transition-colors">Contact</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-heading text-lg text-text-primary mb-4">Contact</h4>
-            <div className="space-y-3">
-              <a 
-                href="mailto:hello@speakupp.com" 
-                data-testid="contact-email"
-                className="flex items-center gap-3 font-body text-text-secondary hover:text-brand-primary transition-colors"
-              >
-                <Mail className="w-5 h-5" />
-                hello@speakupp.com
-              </a>
-            </div>
+            <h4 className="font-heading text-lg mb-4">Contact</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="tel:+919599539864" className="text-gray-400 hover:text-turquoise-400 transition-colors flex items-center gap-2">
+                  <Phone className="w-4 h-4" /> +91 9599 539864
+                </a>
+              </li>
+              <li>
+                <a href="mailto:Speakupp3@gmail.com" className="text-gray-400 hover:text-turquoise-400 transition-colors flex items-center gap-2">
+                  <Mail className="w-4 h-4" /> Speakupp3@gmail.com
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         
-        <div className="border-t border-border-subtle pt-8">
-          <p className="font-body text-sm text-text-secondary text-center">
-            © {new Date().getFullYear()} Sandhya. All rights reserved.
+        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} Speakupp. All rights reserved.
           </p>
+          <div className="flex gap-4">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
+              <Facebook className="w-5 h-5" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
+              <Linkedin className="w-5 h-5" />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
+              <Youtube className="w-5 h-5" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
@@ -732,7 +995,6 @@ const Footer = () => {
 // Main App Component
 function App() {
   useEffect(() => {
-    // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -756,13 +1018,14 @@ function App() {
       <Header />
       <main>
         <HeroSection />
-        <AboutSection />
-        <BenefitsSection />
         <VideoSection />
-        <PricingSection />
-        <ScheduleSection />
+        <AboutSection />
+        <PurposeSection />
+        <ClassesSection />
         <TestimonialsSection />
+        <PricingSection />
         <CTASection />
+        <ContactSection />
       </main>
       <Footer />
     </div>

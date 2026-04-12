@@ -7,29 +7,27 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          bg: '#FDFBF7',
-          'bg-secondary': '#F4EFE6',
-          'bg-accent': '#E8D5D1'
+        turquoise: {
+          50: '#f0fdfa',
+          100: '#ccfbf1',
+          200: '#99f6e4',
+          300: '#5eead4',
+          400: '#2dd4bf',
+          500: '#14b8a6',
+          600: '#0d9488',
+          700: '#0f766e',
+          800: '#115e59',
+          900: '#134e4a',
         },
         text: {
-          primary: '#2D2A26',
-          secondary: '#5C574F',
-          inverse: '#FFFFFF'
-        },
-        brand: {
-          primary: '#C5A059',
-          'primary-hover': '#B38F4E',
-          accent: '#D1A3A4'
-        },
-        border: {
-          subtle: 'rgba(45, 42, 38, 0.08)',
-          medium: 'rgba(45, 42, 38, 0.15)'
+          primary: '#1a1a2e',
+          secondary: '#4a5568',
+          inverse: '#ffffff'
         }
       },
       fontFamily: {
-        heading: ["'Playfair Display'", 'serif'],
-        body: ["'Outfit'", 'sans-serif']
+        heading: ["'Montserrat'", 'sans-serif'],
+        body: ["'Poppins'", 'sans-serif']
       }
     },
   },
