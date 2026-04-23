@@ -1,71 +1,80 @@
-# Speakupp - Online Motivation & Coaching Platform PRD
+# SpeakUpp - Online Motivation & Coaching Platform PRD
 
 ## Original Problem Statement
-Create a modern, clean, and professional website for an online Zoom-based coaching/motivation platform.
-- Company Name: Speakupp
-- Domain: speakupp.in
-- Theme: Turquoise color theme
-- Contact: Speakupp3@gmail.com | +91 9599 539864
+Create a modern, clean landing page for SpeakUpp - Sandhya's online Zoom-based coaching/motivation platform.
 
-## User Personas
-1. **Students** - Need affordable confidence coaching (₹199/session)
-2. **Working Professionals** - Want premium features with personalized feedback (₹299/session)
-3. **Entrepreneurs** - Looking for communication and presentation skills
+## Brand Information
+- **Company**: SpeakUpp
+- **Domain**: speakupp.in
+- **Email**: Speakupp3@gmail.com
+- **Phone**: +91 9599 539864
+- **Location**: Ghaziabad, Uttar Pradesh
 
-## Tech Stack
-- **Frontend**: React 18, Tailwind CSS, Framer Motion
-- **Backend**: FastAPI (minimal)
-- **Styling**: Turquoise color theme (#14b8a6)
-- **Fonts**: Montserrat (headings), Poppins (body)
-- **Animations**: Lenis smooth scrolling, Framer Motion
+## About Sandhya (Updated Content)
+- Professional anchor, motivational speaker, and confidence coach
+- **10+ years of experience**
+- **800+ events hosted worldwide**
+- Master's degree in Journalism and Mass Communication
+- Mission: Transform confidence and communication into a signature presence
+
+## Key Messaging
+- "Confidence isn't something you chase — it's something you uncover within"
+- "This is not passive learning — this is where you evolve in real time"
+- "Owning who you are" vs "performing for the world"
 
 ## What's Been Implemented ✅
-- [x] Header with Speakupp logo and navigation
-- [x] Hero section with Sandhya's photo and stats
-- [x] Video section with embedded video player
-- [x] About section with mentor bio
-- [x] Purpose/Benefits section with 4 cards
-- [x] Classes section explaining Zoom sessions
-- [x] Testimonials section with 4 reviews
-- [x] Pricing: Student Plan ₹199, Regular Plan ₹299
-- [x] Contact section with form and contact details
-- [x] Footer with speakupp.in domain
-- [x] Mobile responsive design
+
+### Pages & Sections
+- [x] Hero with powerful headline and new photos
+- [x] Video introduction section
+- [x] About section with Sandhya's story
+- [x] "Inside SpeakUpp" purpose section
+- [x] Classes section - "This Is Not Passive Learning"
+- [x] Testimonials (4 reviews)
+- [x] Weekly Schedule (Mon/Wed/Fri 7 PM, Sat 11 AM IST)
+- [x] Pricing (₹199 Student, ₹299 Regular)
+- [x] Contact form + contact info
+- [x] Footer with domain & social links
+
+### Photos Used (Latest)
+1. Hero: a.JPEG (black dress on steps)
+2. About: h.jpeg (sparkly outfit at podium)
+3. Gallery: IMG_4448.JPEG (pink dress), h.jpeg, a.JPEG
+
+### Features
+- [x] Turquoise color theme
+- [x] Responsive design (mobile + desktop)
 - [x] Smooth scroll navigation
+- [x] Framer Motion animations
+- [x] Contact form
+- [x] Video player with controls
 
 ## Pricing Plans
 | Plan | Price | Features |
 |------|-------|----------|
-| Student | ₹199/session | Zoom group session, Q&A, recordings, WhatsApp community, certificate |
-| Regular | ₹299/session | All Student features + priority seating, 1-on-1 clearing, feedback, resources |
-
-## Contact Information
-- Email: Speakupp3@gmail.com
-- Phone: +91 9599 539864
-- Location: Ghaziabad, Uttar Pradesh
-- Domain: www.speakupp.in
+| Student | ₹199/session | Live Zoom, Q&A, recordings, WhatsApp community, certificate |
+| Regular | ₹299/session | All Student features + priority seating, 1-on-1, feedback, resources |
 
 ## Prioritized Backlog
 
 ### P0 (Critical - Next Steps)
-- [ ] Razorpay payment integration
-- [ ] Zoom meeting link management
+- [ ] Razorpay payment integration (user to provide API keys)
+- [ ] Update Zoom meeting link (user to create meeting)
 
 ### P1 (High Priority)
-- [ ] WhatsApp chat button integration
-- [ ] Email notifications for form submissions
-- [ ] Google Analytics setup
+- [ ] WhatsApp floating chat button
+- [ ] Email notifications for contact form
+- [ ] Connect custom domain (speakupp.in)
 
 ### P2 (Medium Priority)
-- [ ] Blog section for SEO
+- [ ] Google Analytics
 - [ ] Instagram feed widget
-- [ ] Multi-language support (Hindi)
+- [ ] Blog section for SEO
 
-## Next Tasks
-1. Integrate Razorpay for payments
-2. Set up Zoom meeting links
-3. Add WhatsApp floating button
-4. Connect contact form to email
+## Tech Stack
+- **Frontend**: React 18, Tailwind CSS, Framer Motion
+- **Styling**: Turquoise theme (#14b8a6)
+- **Fonts**: Montserrat (headings), Poppins (body)
 
 ---
 *Last Updated: January 2026*
