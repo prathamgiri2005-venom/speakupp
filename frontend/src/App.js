@@ -323,7 +323,7 @@ const HeroSection = () => {
                 src={HERO_IMAGE}
                 alt="Sandhya - Motivation Coach"
                 data-testid="hero-image"
-                className="relative w-full max-w-md mx-auto rounded-2xl shadow-2xl object-cover aspect-[4/5]"
+                className="relative w-full max-w-md mx-auto rounded-2xl shadow-2xl object-contain"
               />
             </div>
             {/* Floating badge */}
