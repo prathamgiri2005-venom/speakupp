@@ -51,23 +51,23 @@ const staggerContainer = {
 };
 
 // Images - Using uploaded photos
-const HERO_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/ex3lfp0u_p.jpeg"; // Red dress at podium
-const ABOUT_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/b579f3lu_q.jpeg"; // Professional blazer photo
+const HERO_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/u5kuvpcb_a.JPEG"; // Black dress on steps
+const ABOUT_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/e6035d2q_h.jpeg"; // Sparkly outfit at podium
 const VIDEO_URL = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/5luqjwvo_video.mp4";
 
-// Previous photos for gallery
+// Gallery photos for classes section
 const GALLERY_IMAGES = [
-  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/o2qa7qs8_WhatsApp%20Image%202026-04-07%20at%208.53.56%20PM.jpeg",
-  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/dn6ta4hk_WhatsApp%20Image%202026-04-07%20at%208.53.57%20PM.jpeg",
-  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/qkrwthls_WhatsApp%20Image%202026-04-07%20at%208.53.57%20PM%20%282%29.jpeg"
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/xu0wqhi3_IMG_4448.JPEG", // Pink dress with paper
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/e6035d2q_h.jpeg", // Sparkly outfit
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/u5kuvpcb_a.JPEG" // Black dress
 ];
 
 // Data
 const benefits = [
-  { icon: Zap, title: "Build Confidence", description: "Develop unshakeable self-belief and stage presence" },
-  { icon: MessageCircle, title: "Master Communication", description: "Learn to express yourself clearly and effectively" },
-  { icon: Target, title: "Achieve Goals", description: "Set and accomplish your personal and professional goals" },
-  { icon: Award, title: "Transform Life", description: "Become the best version of yourself" }
+  { icon: Zap, title: "Uncover Your Confidence", description: "Confidence isn't something you chase — it's something you uncover within" },
+  { icon: MessageCircle, title: "Master Communication", description: "Transform your communication into a signature presence that commands attention" },
+  { icon: Target, title: "Break Limiting Beliefs", description: "Let go of hesitation and meet the most confident version of yourself" },
+  { icon: Award, title: "Real Transformation", description: "Not surface-level motivation — real, lasting change happens here" }
 ];
 
 const pricingPlans = [
@@ -268,14 +268,14 @@ const HeroSection = () => {
               variants={fadeInUp}
               className="font-heading text-4xl sm:text-5xl lg:text-6xl text-text-primary leading-tight mb-6"
             >
-              Transform Your Life with{' '}
-              <span className="text-turquoise-600">Expert Guidance</span>
+              Confidence Isn't Something You Chase{' '}
+              <span className="text-turquoise-600">— It's Something You Uncover</span>
             </motion.h1>
             <motion.p 
               variants={fadeInUp}
               className="text-lg text-text-secondary mb-8 max-w-lg leading-relaxed"
             >
-              Join Speakupp's live Zoom sessions and unlock your true potential. Build confidence, master communication, and become the best version of yourself with expert coaching.
+              Step into SpeakUpp's exclusive, interactive Zoom sessions where real transformation happens. This is where you let go of hesitation, break limiting beliefs, and finally meet the most confident version of yourself.
             </motion.p>
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
               <a 
@@ -298,15 +298,15 @@ const HeroSection = () => {
             <motion.div variants={fadeInUp} className="flex flex-wrap gap-8 mt-12">
               <div className="text-center">
                 <p className="font-heading text-3xl font-bold text-turquoise-600">800+</p>
-                <p className="text-sm text-text-secondary">Events Hosted</p>
+                <p className="text-sm text-text-secondary">Events Worldwide</p>
               </div>
               <div className="text-center">
-                <p className="font-heading text-3xl font-bold text-turquoise-600">5000+</p>
-                <p className="text-sm text-text-secondary">Lives Transformed</p>
-              </div>
-              <div className="text-center">
-                <p className="font-heading text-3xl font-bold text-turquoise-600">7+</p>
+                <p className="font-heading text-3xl font-bold text-turquoise-600">10+</p>
                 <p className="text-sm text-text-secondary">Years Experience</p>
+              </div>
+              <div className="text-center">
+                <p className="font-heading text-3xl font-bold text-turquoise-600">1000+</p>
+                <p className="text-sm text-text-secondary">Lives Transformed</p>
               </div>
             </motion.div>
           </motion.div>
@@ -366,10 +366,10 @@ const VideoSection = () => {
             <Play className="w-4 h-4" /> Introduction
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            Meet Your Mentor
+            Meet Sandhya
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            Watch this short introduction to understand how Speakupp can transform your life
+            Watch this short introduction to understand how SpeakUpp can help you uncover the confident version of yourself
           </p>
         </motion.div>
 
@@ -430,10 +430,13 @@ const AboutSection = () => {
               Hi, I'm <span className="text-turquoise-600">Sandhya</span>
             </h2>
             <p className="text-text-secondary mb-6 leading-relaxed">
-              I'm a professional anchor, motivational speaker, and confidence coach with over 7 years of experience in transforming lives. With a Master's degree in Journalism and Mass Communication, I've hosted 800+ events across India.
+              I'm a professional anchor, motivational speaker, and confidence coach with over <strong>10 years of experience</strong>. Having hosted <strong>800+ events worldwide</strong>, I've spent years on stage — but my real work goes far beyond it.
+            </p>
+            <p className="text-text-secondary mb-4 leading-relaxed">
+              Because confidence isn't about performing for the world… <em>it's about owning who you are.</em>
             </p>
             <p className="text-text-secondary mb-8 leading-relaxed">
-              My mission is to help you overcome self-doubt, build unshakeable confidence, and master the art of communication. Through Speakupp's interactive Zoom sessions, I provide practical techniques that create real, lasting transformation.
+              With a Master's degree in Journalism and Mass Communication, I understand what it takes to move from self-doubt to self-mastery. My mission is clear: <strong>To transform confidence and communication into a signature presence that commands attention without saying a word.</strong>
             </p>
             
             {/* Features */}
@@ -476,13 +479,13 @@ const PurposeSection = () => {
           className="text-center mb-16"
         >
           <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-            <Target className="w-4 h-4" /> Our Purpose
+            <Sparkles className="w-4 h-4" /> Inside SpeakUpp
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            Why Choose Speakupp?
+            Where Transformation Becomes Reality
           </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            We're dedicated to helping you unlock your full potential through expert guidance and practical training
+          <p className="text-text-secondary max-w-3xl mx-auto leading-relaxed">
+            Step into a space designed for more than just learning — this is where transformation becomes your reality. Every session is a high-energy, immersive experience where you are not just a participant, but a presence being shaped, refined, and elevated.
           </p>
         </motion.div>
 
@@ -530,13 +533,13 @@ const ClassesSection = () => {
             transition={{ duration: 0.8 }}
           >
             <span className="inline-flex items-center gap-2 bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              <Video className="w-4 h-4" /> Live Zoom Classes
+              <Video className="w-4 h-4" /> Live Zoom Sessions
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl mb-6">
-              Interactive Online Sessions
+              This Is Not Passive Learning
             </h2>
             <p className="text-white/90 mb-6 leading-relaxed">
-              Our classes are conducted via Zoom, allowing you to learn from anywhere. Get real-time feedback, participate in interactive exercises, and connect with a community of like-minded individuals.
+              Conducted live on Zoom, these sessions allow you to connect from anywhere in the world while experiencing a deeply interactive and personalized environment. <strong>This is where you evolve in real time.</strong>
             </p>
             
             <ul className="space-y-4 mb-8">
@@ -544,25 +547,31 @@ const ClassesSection = () => {
                 <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                   <Check className="w-4 h-4" />
                 </div>
-                <span>Live interactive sessions with Q&A</span>
+                <span>Live, high-impact sessions with direct interaction</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                   <Check className="w-4 h-4" />
                 </div>
-                <span>Practical exercises and real-time feedback</span>
+                <span>Personalized feedback to refine your presence</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                   <Check className="w-4 h-4" />
                 </div>
-                <span>Access to recordings for revision</span>
+                <span>Guided practical exercises for immediate shift</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                   <Check className="w-4 h-4" />
                 </div>
-                <span>WhatsApp community for ongoing support</span>
+                <span>Access to session recordings for deeper integration</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4" />
+                </div>
+                <span>Exclusive WhatsApp circle for continued growth</span>
               </li>
             </ul>
 
