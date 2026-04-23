@@ -941,7 +941,7 @@ const ContactSection = () => {
               <p className="text-text-secondary mb-4">Follow us on social media</p>
               <div className="flex gap-3">
                 <a 
-                  href="https://instagram.com" 
+                  href="https://www.instagram.com/emcee_sandhya?igsh=MTFiNGx3NWU3b3VjZQ==" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   data-testid="social-instagram"
@@ -959,7 +959,7 @@ const ContactSection = () => {
                   <Facebook className="w-5 h-5" />
                 </a>
                 <a 
-                  href="https://linkedin.com" 
+                  href="https://www.linkedin.com/in/sandhya-bhandari-1246ab111" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   data-testid="social-linkedin"
@@ -968,7 +968,7 @@ const ContactSection = () => {
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a 
-                  href="https://youtube.com" 
+                  href="https://youtube.com/@anchorsandhya" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   data-testid="social-youtube"
@@ -1119,16 +1119,16 @@ const Footer = () => {
             © {new Date().getFullYear()} Speakupp. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
+            <a href="https://www.instagram.com/emcee_sandhya?igsh=MTFiNGx3NWU3b3VjZQ==" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
               <Instagram className="w-5 h-5" />
             </a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
               <Facebook className="w-5 h-5" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
+            <a href="https://www.linkedin.com/in/sandhya-bhandari-1246ab111" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
               <Linkedin className="w-5 h-5" />
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
+            <a href="https://youtube.com/@anchorsandhya" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-turquoise-400 transition-colors">
               <Youtube className="w-5 h-5" />
             </a>
           </div>
