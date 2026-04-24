@@ -111,7 +111,7 @@ const testimonials = [
     role: "College Student",
     text: "Speakupp transformed my public speaking anxiety into confidence. I now lead college presentations with ease!",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
+    image: "https://images.unsplash.com/photo-1739785248579-cd43cdaac06b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwzfHxpbmRpYW4lMjB3b21hbiUyMHByb2Zlc3Npb25hbCUyMHNtaWxpbmclMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzcwNTUwNDV8MA&ixlib=rb-4.1.0&q=85&w=150&h=150&fit=crop"
   },
   {
     id: 2,
@@ -119,7 +119,7 @@ const testimonials = [
     role: "Working Professional",
     text: "The Zoom sessions fit perfectly in my busy schedule. Sandhya's guidance helped me ace my job interviews!",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop"
+    image: "https://images.unsplash.com/photo-1589386417686-0d34b5903d23?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBtYW4lMjBwcm9mZXNzaW9uYWwlMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzc3MDU1MDU0fDA&ixlib=rb-4.1.0&q=85&w=150&h=150&fit=crop"
   },
   {
     id: 3,
@@ -127,7 +127,7 @@ const testimonials = [
     role: "Entrepreneur",
     text: "Best investment I made for myself. My confidence in business meetings has grown tremendously.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop"
+    image: "https://images.unsplash.com/photo-1644335326474-544fbcf8855f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB3b21hbiUyMHByb2Zlc3Npb25hbCUyMHNtaWxpbmclMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzcwNTUwNDV8MA&ixlib=rb-4.1.0&q=85&w=150&h=150&fit=crop"
   },
   {
     id: 4,
@@ -135,7 +135,7 @@ const testimonials = [
     role: "MBA Student",
     text: "The practical exercises and real-time feedback make Speakupp unique. Highly recommended!",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop"
+    image: "https://images.unsplash.com/photo-1764546899196-b53061b1b609?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjBtYW4lMjBwcm9mZXNzaW9uYWwlMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzc3MDU1MDU0fDA&ixlib=rb-4.1.0&q=85&w=150&h=150&fit=crop"
   }
 ];
 
