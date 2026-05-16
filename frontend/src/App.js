@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { 
   Check, 
@@ -78,7 +79,8 @@ const pricingPlans = [
     id: "student",
     name: "Student Plan",
     price: "₹199",
-    period: "/session",
+    period: "/class",
+    amount: 19900, // Amount in paise for Razorpay
     features: [
       "Live Zoom group session",
       "Interactive Q&A",
@@ -93,7 +95,8 @@ const pricingPlans = [
     id: "regular",
     name: "Regular Plan",
     price: "₹299",
-    period: "/session",
+    period: "/class",
+    amount: 29900, // Amount in paise for Razorpay
     features: [
       "Everything in Student Plan",
       "Priority seating in sessions",
@@ -147,41 +150,38 @@ const testimonials = [
 const ZOOM_MEETING_LINK = "https://zoom.us/j/YOUR_MEETING_ID";
 // =====================================
 
-// Schedule data - Update these as needed
-const schedule = [
-  {
-    id: 1,
-    day: "Monday",
-    time: "7:00 PM",
-    duration: "60 mins",
-    topic: "Confidence Building Basics",
-    status: "upcoming"
-  },
-  {
-    id: 2,
-    day: "Wednesday",
-    time: "7:00 PM",
-    duration: "60 mins",
-    topic: "Public Speaking Mastery",
-    status: "upcoming"
-  },
-  {
-    id: 3,
-    day: "Friday",
-    time: "7:00 PM",
-    duration: "60 mins",
-    topic: "Communication Skills",
-    status: "upcoming"
-  },
-  {
-    id: 4,
-    day: "Saturday",
-    time: "11:00 AM",
-    duration: "90 mins",
-    topic: "Weekend Special: Full Workshop",
-    status: "popular"
+// Schedule data - 2 classes per month, every 15 days
+const getUpcomingClassDates = () => {
+  const today = new Date();
+  const dates = [];
+  
+  // Get the 1st and 15th of current or next months
+  let currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  
+  while (dates.length < 2) {
+    // Check 1st of month
+    const firstOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    if (firstOfMonth > today) {
+      dates.push(firstOfMonth);
+    }
+    
+    // Check 15th of month
+    const fifteenthOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 15);
+    if (fifteenthOfMonth > today && dates.length < 2) {
+      dates.push(fifteenthOfMonth);
+    }
+    
+    // Move to next month
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
   }
-];
+  
+  return dates.slice(0, 2);
+};
+
+const formatClassDate = (date) => {
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  return date.toLocaleDateString('en-IN', options);
+};
 
 // Components
 const Header = () => {
@@ -710,10 +710,11 @@ const TestimonialsSection = () => {
 const ScheduleSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const upcomingDates = getUpcomingClassDates();
 
   return (
     <section id="schedule" className="py-20 md:py-28 bg-white" ref={ref}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -724,10 +725,10 @@ const ScheduleSection = () => {
             <Calendar className="w-4 h-4" /> Schedule
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            Weekly Zoom Class Schedule
+            Upcoming Classes
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            Join our live interactive sessions every week. All times are in IST (Indian Standard Time).
+            2 classes per month, every 15 days. All sessions at <strong>7:00 PM IST</strong> via Zoom.
           </p>
         </motion.div>
 
@@ -735,41 +736,39 @@ const ScheduleSection = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6"
         >
-          {schedule.map((item, index) => (
+          {upcomingDates.map((date, index) => (
             <motion.div
-              key={item.id}
+              key={index}
               variants={fadeInUp}
               data-testid={`schedule-card-${index}`}
-              className={`relative rounded-2xl p-6 bg-white border-2 transition-all hover:shadow-lg ${
-                item.status === 'popular' 
+              className={`relative rounded-2xl p-8 bg-white border-2 transition-all hover:shadow-lg ${
+                index === 0 
                   ? 'border-turquoise-500 shadow-lg' 
                   : 'border-gray-100 hover:border-turquoise-200'
               }`}
             >
-              {item.status === 'popular' && (
+              {index === 0 && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-turquoise-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Popular
+                  Next Class
                 </span>
               )}
               <div className="text-center">
-                <div className="w-14 h-14 bg-turquoise-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-7 h-7 text-turquoise-600" />
+                <div className="w-16 h-16 bg-turquoise-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-turquoise-600" />
                 </div>
-                <h3 className="font-heading text-xl text-text-primary mb-1">{item.day}</h3>
-                <div className="flex items-center justify-center gap-2 text-turquoise-600 font-semibold mb-3">
+                <h3 className="font-heading text-xl text-text-primary mb-2">{formatClassDate(date)}</h3>
+                <div className="flex items-center justify-center gap-2 text-turquoise-600 font-semibold">
                   <Clock className="w-4 h-4" />
-                  <span>{item.time} IST</span>
+                  <span>7:00 PM IST</span>
                 </div>
-                <p className="text-sm text-text-secondary mb-2">{item.topic}</p>
-                <p className="text-xs text-gray-400">Duration: {item.duration}</p>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Join Class CTA */}
+        {/* Info Box */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -777,21 +776,9 @@ const ScheduleSection = () => {
           className="mt-12 text-center"
         >
           <div className="bg-gradient-to-r from-turquoise-50 to-turquoise-100 rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="font-heading text-xl text-text-primary mb-3">Ready to Join?</h3>
-            <p className="text-text-secondary mb-6 text-sm">
-              Purchase a plan below and receive your Zoom meeting link instantly via WhatsApp/Email
-            </p>
-            <a 
-              href={ZOOM_MEETING_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="schedule-join-btn"
-              className="btn-primary px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2"
-            >
-              <Video className="w-5 h-5" /> Join Zoom Meeting
-            </a>
-            <p className="text-xs text-gray-500 mt-4">
-              * Meeting link will be active during scheduled class times
+            <h3 className="font-heading text-xl text-text-primary mb-3">How It Works</h3>
+            <p className="text-text-secondary text-sm">
+              Book your seat using the pricing plans below. After payment, you'll receive the Zoom meeting link via email instantly!
             </p>
           </div>
         </motion.div>
@@ -800,9 +787,243 @@ const ScheduleSection = () => {
   );
 };
 
+// API Base URL
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://speakupp-production.up.railway.app';
+
+// Payment Modal Component
+const PaymentModal = ({ isOpen, onClose, plan, onSuccess }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      // Load Razorpay script
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        throw new Error('Failed to load payment gateway');
+      }
+
+      // Create order
+      const orderResponse = await fetch(`${API_BASE_URL}/api/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          plan: plan.name,
+          amount: plan.amount
+        })
+      });
+
+      if (!orderResponse.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      const orderData = await orderResponse.json();
+
+      // Open Razorpay modal
+      const options = {
+        key: orderData.key_id,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'SpeakUpp',
+        description: plan.name,
+        order_id: orderData.order_id,
+        handler: async (response) => {
+          try {
+            // Verify payment
+            const verifyResponse = await fetch(`${API_BASE_URL}/api/verify-payment`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                name,
+                email,
+                plan: plan.name,
+                amount: plan.amount
+              })
+            });
+
+            const verifyData = await verifyResponse.json();
+
+            if (verifyData.success) {
+              onSuccess(verifyData.zoom_link);
+            } else {
+              setError('Payment verification failed');
+            }
+          } catch (err) {
+            setError('Payment verification failed');
+          }
+        },
+        prefill: {
+          name,
+          email
+        },
+        theme: {
+          color: '#14b8a6'
+        }
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (err) {
+      setError(err.message || 'Payment failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="font-heading text-2xl text-text-primary">Book Your Seat</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="bg-turquoise-50 rounded-xl p-4 mb-6">
+          <p className="text-sm text-text-secondary">Selected Plan</p>
+          <p className="font-heading text-xl text-turquoise-600">{plan.name} - {plan.price}</p>
+        </div>
+
+        {error && (
+          <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handlePayment}>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-text-primary mb-2">Your Name</label>
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="form-input"
+              placeholder="Enter your full name"
+              data-testid="payment-name-input"
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-text-primary mb-2">Email Address</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-input"
+              placeholder="Enter your email"
+              data-testid="payment-email-input"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn-primary w-full py-4 rounded-full font-semibold flex items-center justify-center gap-2"
+            data-testid="payment-submit-btn"
+          >
+            {loading ? (
+              <>Processing...</>
+            ) : (
+              <>Pay {plan.price} <ArrowRight className="w-5 h-5" /></>
+            )}
+          </button>
+        </form>
+
+        <p className="text-xs text-gray-500 text-center mt-4">
+          Secured by Razorpay. You'll receive Zoom link via email after payment.
+        </p>
+      </motion.div>
+    </div>
+  );
+};
+
+// Success Modal Component
+const SuccessModal = ({ isOpen, onClose, zoomLink }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={onClose}>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl text-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="w-20 h-20 bg-turquoise-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Check className="w-10 h-10 text-turquoise-600" />
+        </div>
+        <h3 className="font-heading text-2xl text-text-primary mb-2">Payment Successful!</h3>
+        <p className="text-text-secondary mb-6">
+          Your seat is confirmed! Check your email for the Zoom link.
+        </p>
+        
+        <a
+          href={zoomLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary w-full py-4 rounded-full font-semibold flex items-center justify-center gap-2 mb-4"
+        >
+          <Video className="w-5 h-5" /> Join Zoom Class
+        </a>
+        
+        <button
+          onClick={onClose}
+          className="text-turquoise-600 font-medium hover:underline"
+        >
+          Close
+        </button>
+      </motion.div>
+    </div>
+  );
+};
+
 const PricingSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [zoomLink, setZoomLink] = useState('');
+
+  const handleBuyNow = (plan) => {
+    setSelectedPlan(plan);
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentSuccess = (link) => {
+    setZoomLink(link);
+    setShowPaymentModal(false);
+    setShowSuccessModal(true);
+  };
 
   return (
     <section id="pricing" className="py-20 md:py-28 bg-turquoise-50" ref={ref}>
@@ -864,6 +1085,7 @@ const PricingSection = () => {
                 ))}
               </ul>
               <button
+                onClick={() => handleBuyNow(plan)}
                 data-testid={`pricing-cta-${plan.id}`}
                 className={`block w-full py-4 rounded-full font-semibold text-center transition-all ${
                   plan.popular
@@ -885,10 +1107,27 @@ const PricingSection = () => {
           className="mt-12 p-6 bg-white rounded-xl border border-turquoise-200 max-w-2xl mx-auto"
         >
           <p className="text-center text-text-secondary text-sm">
-            <strong className="text-turquoise-600">Secure Payment:</strong> All payments are processed securely via Razorpay. After payment, you'll receive Zoom class link via email/WhatsApp.
+            <strong className="text-turquoise-600">Secure Payment:</strong> All payments are processed securely via Razorpay. After payment, you'll receive Zoom class link via email.
           </p>
         </motion.div>
       </div>
+
+      {/* Payment Modal */}
+      {selectedPlan && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          plan={selectedPlan}
+          onSuccess={handlePaymentSuccess}
+        />
+      )}
+
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        zoomLink={zoomLink}
+      />
     </section>
   );
 };
@@ -1175,8 +1414,233 @@ const Footer = () => {
   );
 };
 
-// Main App Component
-function App() {
+// Admin Page Component
+const AdminPage = () => {
+  const [password, setPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [bookings, setBookings] = useState([]);
+  const [zoomLink, setZoomLink] = useState('');
+  const [newZoomLink, setNewZoomLink] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (password === 'admin123') {
+      setIsAuthenticated(true);
+      fetchBookings();
+      fetchZoomLink();
+    } else {
+      setMessage('Invalid password');
+    }
+  };
+
+  const fetchBookings = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/bookings`, {
+        headers: { 'X-Admin-Password': 'admin123' }
+      });
+      const data = await response.json();
+      setBookings(data.bookings || []);
+    } catch (err) {
+      console.error('Error fetching bookings:', err);
+    }
+  };
+
+  const fetchZoomLink = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/zoom-link`);
+      const data = await response.json();
+      setZoomLink(data.zoom_link || '');
+      setNewZoomLink(data.zoom_link || '');
+    } catch (err) {
+      console.error('Error fetching zoom link:', err);
+    }
+  };
+
+  const updateZoomLink = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/admin/zoom-link`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Password': 'admin123'
+        },
+        body: JSON.stringify({ zoom_link: newZoomLink })
+      });
+      const data = await response.json();
+      if (data.success) {
+        setZoomLink(newZoomLink);
+        setMessage('Zoom link updated successfully!');
+      }
+    } catch (err) {
+      setMessage('Error updating zoom link');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-turquoise-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-xl">
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-turquoise-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Users className="w-8 h-8 text-turquoise-600" />
+            </div>
+            <h1 className="font-heading text-2xl text-text-primary">Admin Login</h1>
+            <p className="text-text-secondary text-sm mt-2">Enter password to access admin panel</p>
+          </div>
+          
+          {message && (
+            <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm text-center">
+              {message}
+            </div>
+          )}
+          
+          <form onSubmit={handleLogin}>
+            <input
+              type="password"
+              placeholder="Enter admin password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-input mb-4"
+              data-testid="admin-password-input"
+            />
+            <button
+              type="submit"
+              className="btn-primary w-full py-4 rounded-full font-semibold"
+              data-testid="admin-login-btn"
+            >
+              Login
+            </button>
+          </form>
+          
+          <button
+            onClick={() => navigate('/')}
+            className="text-turquoise-600 text-sm mt-4 block mx-auto hover:underline"
+          >
+            Back to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-turquoise-50 p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <div>
+            <h1 className="font-heading text-3xl text-text-primary">Admin Dashboard</h1>
+            <p className="text-text-secondary">Manage bookings and settings</p>
+          </div>
+          <button
+            onClick={() => navigate('/')}
+            className="text-turquoise-600 font-medium hover:underline"
+          >
+            Back to Website
+          </button>
+        </div>
+
+        {/* Message */}
+        {message && (
+          <div className="bg-turquoise-100 text-turquoise-700 p-4 rounded-xl mb-6">
+            {message}
+          </div>
+        )}
+
+        {/* Zoom Link Section */}
+        <div className="bg-white rounded-2xl p-6 mb-8 shadow-lg">
+          <h2 className="font-heading text-xl text-text-primary mb-4">Zoom Meeting Link</h2>
+          <p className="text-text-secondary text-sm mb-4">Current: <a href={zoomLink} className="text-turquoise-600 hover:underline" target="_blank" rel="noopener noreferrer">{zoomLink}</a></p>
+          
+          <form onSubmit={updateZoomLink} className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="url"
+              placeholder="Enter new Zoom link"
+              value={newZoomLink}
+              onChange={(e) => setNewZoomLink(e.target.value)}
+              className="form-input flex-1"
+              data-testid="zoom-link-input"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary px-6 py-3 rounded-xl font-semibold whitespace-nowrap"
+              data-testid="update-zoom-btn"
+            >
+              {loading ? 'Updating...' : 'Update Link'}
+            </button>
+          </form>
+        </div>
+
+        {/* Bookings Table */}
+        <div className="bg-white rounded-2xl p-6 shadow-lg overflow-hidden">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-heading text-xl text-text-primary">All Bookings ({bookings.length})</h2>
+            <button
+              onClick={fetchBookings}
+              className="text-turquoise-600 font-medium hover:underline text-sm"
+            >
+              Refresh
+            </button>
+          </div>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[800px]">
+              <thead>
+                <tr className="bg-turquoise-50">
+                  <th className="text-left p-4 font-semibold text-text-primary">ID</th>
+                  <th className="text-left p-4 font-semibold text-text-primary">Name</th>
+                  <th className="text-left p-4 font-semibold text-text-primary">Email</th>
+                  <th className="text-left p-4 font-semibold text-text-primary">Plan</th>
+                  <th className="text-left p-4 font-semibold text-text-primary">Amount</th>
+                  <th className="text-left p-4 font-semibold text-text-primary">Payment ID</th>
+                  <th className="text-left p-4 font-semibold text-text-primary">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookings.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" className="text-center p-8 text-text-secondary">
+                      No bookings yet
+                    </td>
+                  </tr>
+                ) : (
+                  bookings.map((booking) => (
+                    <tr key={booking.id} className="border-b border-gray-100 hover:bg-turquoise-50/50">
+                      <td className="p-4 text-text-secondary">{booking.id}</td>
+                      <td className="p-4 text-text-primary font-medium">{booking.name}</td>
+                      <td className="p-4 text-text-secondary">{booking.email}</td>
+                      <td className="p-4">
+                        <span className="bg-turquoise-100 text-turquoise-700 px-3 py-1 rounded-full text-xs font-semibold">
+                          {booking.plan}
+                        </span>
+                      </td>
+                      <td className="p-4 text-turquoise-600 font-semibold">₹{booking.amount / 100}</td>
+                      <td className="p-4 text-text-secondary text-xs">{booking.payment_id}</td>
+                      <td className="p-4 text-text-secondary text-sm">
+                        {booking.created_at ? new Date(booking.created_at).toLocaleDateString('en-IN') : '-'}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Main Landing Page Component
+const LandingPage = () => {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -1197,7 +1661,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="LandingPage">
       <Header />
       <main>
         <HeroSection />
@@ -1213,6 +1677,18 @@ function App() {
       </main>
       <Footer />
     </div>
+  );
+};
+
+// Main App Component with Routing
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
