@@ -10,6 +10,7 @@ from fastapi import FastAPI, HTTPException, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
+import setuptools
 import razorpay
 import resend
 import psycopg2
