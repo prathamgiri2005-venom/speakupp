@@ -3,7 +3,6 @@ wheel
 fastapi
 uvicorn
 razorpay
-resend
 psycopg2-binary
 python-dotenv
 python-multipart
