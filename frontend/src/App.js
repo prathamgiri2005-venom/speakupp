@@ -628,11 +628,11 @@ const ClassesSection = () => {
             className="grid grid-cols-2 gap-4"
           >
             {GALLERY_IMAGES.map((img, index) => (
-              <div key={index} className={`${index === 0 ? 'col-span-2' : ''}`}>
+              <div key={index} className={`${index === 0 ? 'col-span-2' : ''} overflow-hidden rounded-xl shadow-lg bg-white`}>
                 <img 
                   src={img}
                   alt={`Session ${index + 1}`}
-                  className="w-full h-48 md:h-56 object-cover rounded-xl shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             ))}
