@@ -147,7 +147,7 @@ const testimonials = [
 
 // ===== ZOOM MEETING CONFIGURATION =====
 // UPDATE THIS LINK WITH YOUR ACTUAL ZOOM MEETING LINK
-const ZOOM_MEETING_LINK = "https://zoom.us/j/YOUR_MEETING_ID";
+const ZOOM_MEETING_LINK = "https://us05web.zoom.us/j/83777965782?pwd=neVazmQIo8eg1RRil7iGfWQuD2zxSr.1";
 // =====================================
 
 // Schedule data - 2 classes per month, every 15 days
