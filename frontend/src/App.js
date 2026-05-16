@@ -53,14 +53,17 @@ const staggerContainer = {
 // Images - Using uploaded photos
 const HERO_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/u5kuvpcb_a.JPEG"; // Black dress on steps
 const ABOUT_IMAGE = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/e6035d2q_h.jpeg"; // Sparkly outfit at podium
-const VIDEO_URL = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/5luqjwvo_video.mp4";
 
-// Gallery photos for classes section
+// Gallery photos for classes section - UPDATE THESE 3 IMAGES AS NEEDED
 const GALLERY_IMAGES = [
-  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/xu0wqhi3_IMG_4448.JPEG", // Pink dress with paper
-  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/e6035d2q_h.jpeg", // Sparkly outfit
-  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/u5kuvpcb_a.JPEG" // Black dress
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/ncc5ixdh_IMG_7945.JPG.jpeg", // Red dress at podium
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/n09dtor6_IMG_6361.JPEG", // Saree at awards
+  "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/14jbmxm2_IMG_7948.JPEG" // Third photo
 ];
+
+// Video URLs
+const FEATURED_VIDEO_URL = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/dg9ocwnc_sandhya%20mam%20reel%202.mp4";
+const INTRO_VIDEO_URL = "https://customer-assets.emergentagent.com/job_confidence-journey-6/artifacts/5luqjwvo_video.mp4";
 
 // Data
 const benefits = [
@@ -355,21 +358,22 @@ const VideoSection = () => {
 
   return (
     <section id="video" className="py-20 md:py-28 bg-white" ref={ref}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Featured Video - Main/Larger */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
-          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-            <Play className="w-4 h-4" /> Introduction
+          <span className="inline-flex items-center gap-2 bg-turquoise-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Play className="w-4 h-4" /> Featured Video
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
             Meet Sandhya
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            Watch this short introduction to understand how SpeakUpp can help you uncover the confident version of yourself
+            Watch this to understand how SpeakUpp can help you uncover the confident version of yourself
           </p>
         </motion.div>
 
@@ -377,16 +381,49 @@ const VideoSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="video-container"
-          data-testid="video-container"
+          className="video-container mb-16"
+          data-testid="featured-video-container"
+        >
+          <video 
+            controls 
+            poster={HERO_IMAGE}
+            className="w-full rounded-2xl shadow-2xl"
+            data-testid="featured-video"
+          >
+            <source src={FEATURED_VIDEO_URL} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
+
+        {/* Introduction Video - Secondary/Smaller */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mb-8"
+        >
+          <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+            <Play className="w-4 h-4" /> Introduction
+          </span>
+          <h3 className="font-heading text-2xl sm:text-3xl text-text-primary mb-2">
+            More About SpeakUpp
+          </h3>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="max-w-3xl mx-auto"
+          data-testid="intro-video-container"
         >
           <video 
             controls 
             poster={ABOUT_IMAGE}
-            className="w-full rounded-2xl"
+            className="w-full rounded-2xl shadow-lg"
             data-testid="intro-video"
           >
-            <source src={VIDEO_URL} type="video/mp4" />
+            <source src={INTRO_VIDEO_URL} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </motion.div>
