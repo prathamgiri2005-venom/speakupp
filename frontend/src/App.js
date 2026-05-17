@@ -384,12 +384,15 @@ const VideoSection = () => {
           className="video-container mb-16"
           data-testid="featured-video-container"
         >
-          <video 
-            controls 
-            poster={HERO_IMAGE}
-            className="w-full rounded-2xl shadow-2xl"
-            data-testid="featured-video"
-          >
+        <video 
+  controls
+  playsInline
+  webkit-playsinline="true"
+  preload="metadata"
+  poster={HERO_IMAGE}
+  className="w-full rounded-2xl shadow-2xl"
+  data-testid="featured-video"
+>
             <source src={FEATURED_VIDEO_URL} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
