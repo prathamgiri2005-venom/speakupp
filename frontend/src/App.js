@@ -384,19 +384,17 @@ const VideoSection = () => {
           className="video-container mb-16"
           data-testid="featured-video-container"
         >
-        <video 
+ <video 
   controls
   playsInline
-  webkit-playsinline="true"
-  preload="metadata"
+  preload="auto"
   poster={HERO_IMAGE}
   className="w-full rounded-2xl shadow-2xl"
   data-testid="featured-video"
 >
-            <source src={FEATURED_VIDEO_URL} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </motion.div>
+  <source src={FEATURED_VIDEO_URL} type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
 
         {/* Introduction Video - Secondary/Smaller */}
         <motion.div
@@ -420,18 +418,17 @@ const VideoSection = () => {
           className="max-w-3xl mx-auto"
           data-testid="intro-video-container"
         >
-         <video 
+  <video 
   controls
   playsInline
-  webkit-playsinline="true"
-  preload="metadata"
+  preload="auto"
   poster={ABOUT_IMAGE}
   className="w-full rounded-2xl shadow-lg"
   data-testid="intro-video"
 >
-            <source src={INTRO_VIDEO_URL} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+  <source src={INTRO_VIDEO_URL} type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
         </motion.div>
       </div>
     </section>
