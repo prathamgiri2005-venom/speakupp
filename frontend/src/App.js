@@ -384,18 +384,19 @@ const VideoSection = () => {
           className="video-container mb-16"
           data-testid="featured-video-container"
         >
- <video 
-  controls
-  playsInline
-  preload="auto"
-  poster={HERO_IMAGE}
-  className="w-full rounded-2xl shadow-2xl"
-  data-testid="featured-video"
->
-  <source src={FEATURED_VIDEO_URL} type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
-
+<video 
+    controls
+    playsInline
+    preload="auto"
+    poster={HERO_IMAGE}
+    className="w-full rounded-2xl shadow-2xl"
+    data-testid="featured-video"
+  >
+    <source src={FEATURED_VIDEO_URL} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</motion.div>
+        {/* Introduction Video - Secondary/Smaller */}
         {/* Introduction Video - Secondary/Smaller */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
