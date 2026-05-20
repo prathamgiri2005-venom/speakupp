@@ -381,8 +381,9 @@ const VideoSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="video-container mb-16"
+        className="video-container mb-16"
           data-testid="featured-video-container"
+        >
 <iframe
   src="https://www.youtube.com/embed/0KMgIr-2C58"
   className="w-full rounded-2xl shadow-2xl"
