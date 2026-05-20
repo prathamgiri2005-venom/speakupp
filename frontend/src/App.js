@@ -383,18 +383,14 @@ const VideoSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="video-container mb-16"
           data-testid="featured-video-container"
-        >
-<video 
-    controls
-    playsInline
-    preload="auto"
-    poster={HERO_IMAGE}
-    className="w-full rounded-2xl shadow-2xl"
-    data-testid="featured-video"
-  >
-    <source src={FEATURED_VIDEO_URL} type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+<iframe
+  src="https://www.youtube.com/embed/0KMgIr-2C58"
+  className="w-full rounded-2xl shadow-2xl"
+  style={{aspectRatio: '9/16', maxHeight: '600px'}}
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+  data-testid="featured-video"
+/>
 </motion.div>
         {/* Introduction Video - Secondary/Smaller */}
         {/* Introduction Video - Secondary/Smaller */}
@@ -419,17 +415,14 @@ const VideoSection = () => {
           className="max-w-3xl mx-auto"
           data-testid="intro-video-container"
         >
-  <video 
-  controls
-  playsInline
-  preload="auto"
-  poster={ABOUT_IMAGE}
+<iframe
+  src="https://www.youtube.com/embed/BBPX6SfD5pY"
   className="w-full rounded-2xl shadow-lg"
+  style={{aspectRatio: '9/16', maxHeight: '600px'}}
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
   data-testid="intro-video"
->
-  <source src={INTRO_VIDEO_URL} type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
+/>
         </motion.div>
       </div>
     </section>
