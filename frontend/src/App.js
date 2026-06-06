@@ -166,7 +166,7 @@ const getUpcomingClassDates = () => {
     }
     
     // Check 15th of month
-    const fifteenthOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 15);
+   const fifteenthOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 14);
     if (fifteenthOfMonth > today && dates.length < 2) {
       dates.push(fifteenthOfMonth);
     }
