@@ -42,7 +42,7 @@ app.add_middleware(
 # Environment variables
 RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET")
-ZOOM_LINK = os.environ.get("ZOOM_LINK", "https://us05web.zoom.us/j/83777965782?pwd=neVazmQIo8eg1RRil7iGfWQuD2zxSr.1")
+ZOOM_LINK = os.environ.get("ZOOM_LINK", "https://meet.google.com/wxk-hndz-qju")
 DATABASE_URL = os.environ.get("DATABASE_URL")
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "https://speakupp.in")
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
@@ -133,7 +133,7 @@ class VerifyPaymentRequest(BaseModel):
 class UpdateZoomLinkRequest(BaseModel):
     zoom_link: str
 
-# Get current zoom link
+# Get current meet link
 def get_zoom_link():
     conn = get_db_connection()
     if not conn:
@@ -146,11 +146,11 @@ def get_zoom_link():
         conn.close()
         return result['value'] if result else ZOOM_LINK
     except Exception as e:
-        logger.error(f"Error getting zoom link: {e}")
+        logger.error(f"Error getting meet link: {e}")
         return ZOOM_LINK
 
 # Send confirmation email via Gmail
-async def send_confirmation_email(name: str, email: str, plan: str, amount: int, zoom_link: str):
+async def send_confirmation_email(name: str, email: str, plan: str, amount: int, meet_link: str):
     if not EMAIL_USER or not EMAIL_PASSWORD:
         logger.warning("Email credentials not set - skipping email")
         return
@@ -189,14 +189,18 @@ async def send_confirmation_email(name: str, email: str, plan: str, amount: int,
                         </tr>
                     </table>
                     <div style="text-align: center; margin: 35px 0;">
-                        <a href="{zoom_link}" style="display: inline-block; background: linear-gradient(135deg, #14b8a6, #0d9488); color: white; text-decoration: none; padding: 18px 45px; border-radius: 50px; font-size: 18px; font-weight: bold;">
-                            🎥 Join Zoom Class
+                        <a href="{meet_link}" style="display: inline-block; background: linear-gradient(135deg, #14b8a6, #0d9488); color: white; text-decoration: none; padding: 18px 45px; border-radius: 50px; font-size: 18px; font-weight: bold;">
+                            🎥 Join Class
                         </a>
                     </div>
                     <p style="color: #6b7280; font-size: 14px; text-align: center;">
-                        Save this link! You'll use it to join the live session.<br>
+                        Save this Google Meet link! You'll use it to join the live session.<br>
                         Please join 5 minutes before class starts.
                     </p>
+                    <div style="background: #f8fafc; border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
+                        <p style="color: #6b7280; font-size: 13px; margin: 0;">Google Meet Link:</p>
+                        <a href="{meet_link}" style="color: #14b8a6; font-size: 14px; word-break: break-all;">{meet_link}</a>
+                    </div>
                 </div>
                 <div style="background: #f8fafc; padding: 25px; text-align: center; border-top: 1px solid #e5e7eb;">
                     <p style="color: #1a1a2e; margin: 0 0 10px 0; font-weight: 600;">Sandhya | SpeakUpp</p>
@@ -273,7 +277,7 @@ async def verify_payment(request: VerifyPaymentRequest):
             logger.error("Payment signature verification failed")
             raise HTTPException(status_code=400, detail="Payment verification failed")
 
-        zoom_link = get_zoom_link()
+        meet_link = get_zoom_link()
 
         # Save to database
         conn = get_db_connection()
@@ -290,7 +294,7 @@ async def verify_payment(request: VerifyPaymentRequest):
                     request.amount,
                     request.razorpay_payment_id,
                     request.razorpay_order_id,
-                    zoom_link,
+                    meet_link,
                     datetime.now(timezone.utc)
                 ))
                 conn.commit()
@@ -306,12 +310,13 @@ async def verify_payment(request: VerifyPaymentRequest):
             request.email,
             request.plan,
             request.amount,
-            zoom_link
+            meet_link
         )
 
         return {
             "success": True,
-            "zoom_link": zoom_link,
+            "meet_link": meet_link,
+            "zoom_link": meet_link,
             "message": "Payment verified successfully"
         }
 
@@ -379,7 +384,7 @@ async def update_zoom_link(request: UpdateZoomLinkRequest, x_admin_password: Opt
         conn.close()
         return {"success": True, "zoom_link": request.zoom_link}
     except Exception as e:
-        logger.error(f"Error updating zoom link: {e}")
+        logger.error(f"Error updating meet link: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/zoom-link")
