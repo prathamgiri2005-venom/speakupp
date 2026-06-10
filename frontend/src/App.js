@@ -82,7 +82,7 @@ const pricingPlans = [
     period: "/class",
     amount: 19900, // Amount in paise for Razorpay
     features: [
-      "Live Zoom group session",
+      "Live group session",
       "Interactive Q&A",
       "Session recordings access",
       "WhatsApp community access",
@@ -123,7 +123,7 @@ const testimonials = [
     id: 2,
     name: "Rahul Verma",
     role: "Working Professional",
-    text: "The Zoom sessions fit perfectly in my busy schedule. Sandhya's guidance helped me ace my job interviews!",
+    text: "The sessions fit perfectly in my busy schedule. Sandhya's guidance helped me ace my job interviews!",
     rating: 5,
     image: "https://images.unsplash.com/photo-1589386417686-0d34b5903d23?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBtYW4lMjBwcm9mZXNzaW9uYWwlMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzc3MDU1MDU0fDA&ixlib=rb-4.1.0&q=85&w=150&h=150&fit=crop"
   },
@@ -145,17 +145,16 @@ const testimonials = [
   }
 ];
 
-// ===== ZOOM MEETING CONFIGURATION =====
-// UPDATE THIS LINK WITH YOUR ACTUAL ZOOM MEETING LINK
-const ZOOM_MEETING_LINK = "https://us05web.zoom.us/j/83777965782?pwd=neVazmQIo8eg1RRil7iGfWQuD2zxSr.1";
+// ===== GOOGLE MEET CONFIGURATION =====
+const MEET_LINK = "https://meet.google.com/wxk-hndz-qju";
 // =====================================
 
-// Schedule data - 2 classes per month, every 15 days
+// Schedule data - 2 classes per month, every 14 days
 const getUpcomingClassDates = () => {
   const today = new Date();
   const dates = [];
   
-  // Get the 1st and 15th of current or next months
+  // Get the 1st and 14th of current or next months
   let currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
   
   while (dates.length < 2) {
@@ -165,10 +164,10 @@ const getUpcomingClassDates = () => {
       dates.push(firstOfMonth);
     }
     
-    // Check 15th of month
-   const fifteenthOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 14);
-    if (fifteenthOfMonth > today && dates.length < 2) {
-      dates.push(fifteenthOfMonth);
+    // Check 14th of month
+    const fourteenthOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 14);
+    if (fourteenthOfMonth > today && dates.length < 2) {
+      dates.push(fourteenthOfMonth);
     }
     
     // Move to next month
@@ -213,7 +212,7 @@ const Header = () => {
               data-testid="header-cta"
               className="hidden sm:inline-flex btn-primary px-6 py-2.5 rounded-full font-semibold text-sm items-center gap-2"
             >
-              Join Zoom Class <Video className="w-4 h-4" />
+              Join Class <Video className="w-4 h-4" />
             </a>
             <button 
               className="md:hidden p-2"
@@ -242,7 +241,7 @@ const Header = () => {
           <a href="#pricing" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Pricing</a>
           <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-xl font-medium text-text-primary hover:text-turquoise-600">Contact</a>
           <a href="#pricing" onClick={() => setIsMenuOpen(false)} className="btn-primary px-8 py-3 rounded-full font-semibold">
-            Join Zoom Class
+            Join Class
           </a>
         </div>
       )}
@@ -278,7 +277,7 @@ const HeroSection = () => {
               variants={fadeInUp}
               className="text-lg text-text-secondary mb-8 max-w-lg leading-relaxed"
             >
-              Step into SpeakUpp's exclusive, interactive Zoom sessions where real transformation happens. This is where you let go of hesitation, break limiting beliefs, and finally meet the most confident version of yourself.
+              Step into SpeakUpp's exclusive, interactive live sessions where real transformation happens. This is where you let go of hesitation, break limiting beliefs, and finally meet the most confident version of yourself.
             </motion.p>
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
               <a 
@@ -286,7 +285,7 @@ const HeroSection = () => {
                 data-testid="hero-cta-primary"
                 className="btn-primary px-8 py-4 rounded-full font-semibold text-center inline-flex items-center justify-center gap-2"
               >
-                Join Zoom Class <ArrowRight className="w-5 h-5" />
+                Join Class <ArrowRight className="w-5 h-5" />
               </a>
               <a 
                 href="#video" 
@@ -340,7 +339,7 @@ const HeroSection = () => {
                   <Video className="w-6 h-6 text-turquoise-600" />
                 </div>
                 <div>
-                  <p className="font-heading text-lg font-bold text-text-primary">Live Zoom</p>
+                  <p className="font-heading text-lg font-bold text-text-primary">Live Classes</p>
                   <p className="text-sm text-text-secondary">Interactive Sessions</p>
                 </div>
               </div>
@@ -393,7 +392,6 @@ const VideoSection = () => {
   data-testid="featured-video"
 />
 </motion.div>
-        {/* Introduction Video - Secondary/Smaller */}
         {/* Introduction Video - Secondary/Smaller */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -568,13 +566,13 @@ const ClassesSection = () => {
             transition={{ duration: 0.8 }}
           >
             <span className="inline-flex items-center gap-2 bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              <Video className="w-4 h-4" /> Live Zoom Sessions
+              <Video className="w-4 h-4" /> Live Sessions
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl mb-6">
               This Is Not Passive Learning
             </h2>
             <p className="text-white/90 mb-6 leading-relaxed">
-              Conducted live on Zoom, these sessions allow you to connect from anywhere in the world while experiencing a deeply interactive and personalized environment. <strong>This is where you evolve in real time.</strong>
+              Conducted live, these sessions allow you to connect from anywhere in the world while experiencing a deeply interactive and personalized environment. <strong>This is where you evolve in real time.</strong>
             </p>
             
             <ul className="space-y-4 mb-8">
@@ -726,7 +724,7 @@ const ScheduleSection = () => {
             Upcoming Classes
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            2 classes per month, every 15 days. All sessions at <strong>7:00 PM IST</strong> via Zoom.
+            2 classes per month, every 14 days. All sessions at <strong>7:00 PM IST</strong> via Google Meet.
           </p>
         </motion.div>
 
@@ -776,7 +774,7 @@ const ScheduleSection = () => {
           <div className="bg-gradient-to-r from-turquoise-50 to-turquoise-100 rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="font-heading text-xl text-text-primary mb-3">How It Works</h3>
             <p className="text-text-secondary text-sm">
-              Book your seat using the pricing plans below. After payment, you'll receive the Zoom meeting link via email instantly!
+              Book your seat using the pricing plans below. After payment, you'll receive the Google Meet link via email instantly!
             </p>
           </div>
         </motion.div>
@@ -811,13 +809,11 @@ const PaymentModal = ({ isOpen, onClose, plan, onSuccess }) => {
     setError('');
 
     try {
-      // Load Razorpay script
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         throw new Error('Failed to load payment gateway');
       }
 
-      // Create order
       const orderResponse = await fetch(`${API_BASE_URL}/api/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -835,7 +831,6 @@ const PaymentModal = ({ isOpen, onClose, plan, onSuccess }) => {
 
       const orderData = await orderResponse.json();
 
-      // Open Razorpay modal
       const options = {
         key: orderData.key_id,
         amount: orderData.amount,
@@ -845,7 +840,6 @@ const PaymentModal = ({ isOpen, onClose, plan, onSuccess }) => {
         order_id: orderData.order_id,
         handler: async (response) => {
           try {
-            // Verify payment
             const verifyResponse = await fetch(`${API_BASE_URL}/api/verify-payment`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -863,7 +857,7 @@ const PaymentModal = ({ isOpen, onClose, plan, onSuccess }) => {
             const verifyData = await verifyResponse.json();
 
             if (verifyData.success) {
-              onSuccess(verifyData.zoom_link);
+              onSuccess(verifyData.meet_link || "https://meet.google.com/wxk-hndz-qju");
             } else {
               setError('Payment verification failed');
             }
@@ -957,7 +951,7 @@ const PaymentModal = ({ isOpen, onClose, plan, onSuccess }) => {
         </form>
 
         <p className="text-xs text-gray-500 text-center mt-4">
-          Secured by Razorpay. You'll receive Zoom link via email after payment.
+          Secured by Razorpay. You'll receive the Google Meet link via email after payment.
         </p>
       </motion.div>
     </div>
@@ -965,7 +959,7 @@ const PaymentModal = ({ isOpen, onClose, plan, onSuccess }) => {
 };
 
 // Success Modal Component
-const SuccessModal = ({ isOpen, onClose, zoomLink }) => {
+const SuccessModal = ({ isOpen, onClose, meetLink }) => {
   if (!isOpen) return null;
 
   return (
@@ -981,16 +975,16 @@ const SuccessModal = ({ isOpen, onClose, zoomLink }) => {
         </div>
         <h3 className="font-heading text-2xl text-text-primary mb-2">Payment Successful!</h3>
         <p className="text-text-secondary mb-6">
-          Your seat is confirmed! Check your email for the Zoom link.
+          Your seat is confirmed! Check your email for the Google Meet link.
         </p>
         
         <a
-          href={zoomLink}
+          href={meetLink || "https://meet.google.com/wxk-hndz-qju"}
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary w-full py-4 rounded-full font-semibold flex items-center justify-center gap-2 mb-4"
         >
-          <Video className="w-5 h-5" /> Join Zoom Class
+          <Video className="w-5 h-5" /> Join Class
         </a>
         
         <button
@@ -1010,7 +1004,7 @@ const PricingSection = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [zoomLink, setZoomLink] = useState('');
+  const [meetLink, setMeetLink] = useState('');
 
   const handleBuyNow = (plan) => {
     setSelectedPlan(plan);
@@ -1018,7 +1012,7 @@ const PricingSection = () => {
   };
 
   const handlePaymentSuccess = (link) => {
-    setZoomLink(link);
+    setMeetLink(link);
     setShowPaymentModal(false);
     setShowSuccessModal(true);
   };
@@ -1105,7 +1099,7 @@ const PricingSection = () => {
           className="mt-12 p-6 bg-white rounded-xl border border-turquoise-200 max-w-2xl mx-auto"
         >
           <p className="text-center text-text-secondary text-sm">
-            <strong className="text-turquoise-600">Secure Payment:</strong> All payments are processed securely via Razorpay. After payment, you'll receive Zoom class link via email.
+            <strong className="text-turquoise-600">Secure Payment:</strong> All payments are processed securely via Razorpay. After payment, you'll receive the Google Meet link via email.
           </p>
         </motion.div>
       </div>
@@ -1124,7 +1118,7 @@ const PricingSection = () => {
       <SuccessModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
-        zoomLink={zoomLink}
+        meetLink={meetLink}
       />
     </section>
   );
@@ -1137,7 +1131,6 @@ const ContactSection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Form submission logic
     alert('Thank you for your message! We will get back to you soon.');
     setFormData({ name: '', email: '', message: '' });
   };
@@ -1326,7 +1319,7 @@ const CTASection = () => {
           data-testid="cta-join"
           className="inline-flex items-center gap-2 bg-white text-turquoise-600 px-10 py-4 rounded-full font-semibold text-lg hover:bg-turquoise-50 transition-colors shadow-lg"
         >
-          Join Zoom Class Today <ArrowRight className="w-5 h-5" />
+          Join Class Today <ArrowRight className="w-5 h-5" />
         </a>
       </div>
     </section>
@@ -1417,8 +1410,8 @@ const AdminPage = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [bookings, setBookings] = useState([]);
-  const [zoomLink, setZoomLink] = useState('');
-  const [newZoomLink, setNewZoomLink] = useState('');
+  const [meetLink, setMeetLink] = useState('');
+  const [newMeetLink, setNewMeetLink] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -1428,7 +1421,7 @@ const AdminPage = () => {
     if (password === 'admin123') {
       setIsAuthenticated(true);
       fetchBookings();
-      fetchZoomLink();
+      fetchMeetLink();
     } else {
       setMessage('Invalid password');
     }
@@ -1446,18 +1439,18 @@ const AdminPage = () => {
     }
   };
 
-  const fetchZoomLink = async () => {
+  const fetchMeetLink = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/zoom-link`);
       const data = await response.json();
-      setZoomLink(data.zoom_link || '');
-      setNewZoomLink(data.zoom_link || '');
+      setMeetLink(data.zoom_link || '');
+      setNewMeetLink(data.zoom_link || '');
     } catch (err) {
-      console.error('Error fetching zoom link:', err);
+      console.error('Error fetching meet link:', err);
     }
   };
 
-  const updateZoomLink = async (e) => {
+  const updateMeetLink = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -1467,15 +1460,15 @@ const AdminPage = () => {
           'Content-Type': 'application/json',
           'X-Admin-Password': 'admin123'
         },
-        body: JSON.stringify({ zoom_link: newZoomLink })
+        body: JSON.stringify({ zoom_link: newMeetLink })
       });
       const data = await response.json();
       if (data.success) {
-        setZoomLink(newZoomLink);
-        setMessage('Zoom link updated successfully!');
+        setMeetLink(newMeetLink);
+        setMessage('Meet link updated successfully!');
       }
     } catch (err) {
-      setMessage('Error updating zoom link');
+      setMessage('Error updating meet link');
     } finally {
       setLoading(false);
     }
@@ -1531,7 +1524,6 @@ const AdminPage = () => {
   return (
     <div className="min-h-screen bg-turquoise-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h1 className="font-heading text-3xl text-text-primary">Admin Dashboard</h1>
@@ -1545,24 +1537,23 @@ const AdminPage = () => {
           </button>
         </div>
 
-        {/* Message */}
         {message && (
           <div className="bg-turquoise-100 text-turquoise-700 p-4 rounded-xl mb-6">
             {message}
           </div>
         )}
 
-        {/* Zoom Link Section */}
+        {/* Meet Link Section */}
         <div className="bg-white rounded-2xl p-6 mb-8 shadow-lg">
-          <h2 className="font-heading text-xl text-text-primary mb-4">Zoom Meeting Link</h2>
-          <p className="text-text-secondary text-sm mb-4">Current: <a href={zoomLink} className="text-turquoise-600 hover:underline" target="_blank" rel="noopener noreferrer">{zoomLink}</a></p>
+          <h2 className="font-heading text-xl text-text-primary mb-4">Google Meet Link</h2>
+          <p className="text-text-secondary text-sm mb-4">Current: <a href={meetLink} className="text-turquoise-600 hover:underline" target="_blank" rel="noopener noreferrer">{meetLink}</a></p>
           
-          <form onSubmit={updateZoomLink} className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={updateMeetLink} className="flex flex-col sm:flex-row gap-3">
             <input
               type="url"
-              placeholder="Enter new Zoom link"
-              value={newZoomLink}
-              onChange={(e) => setNewZoomLink(e.target.value)}
+              placeholder="Enter new Google Meet link"
+              value={newMeetLink}
+              onChange={(e) => setNewMeetLink(e.target.value)}
               className="form-input flex-1"
               data-testid="zoom-link-input"
             />
