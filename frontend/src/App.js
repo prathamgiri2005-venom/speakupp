@@ -76,11 +76,12 @@ const benefits = [
 
 const pricingPlans = [
   {
-    id: "student",
+   id: "student",
     name: "Student Plan",
-    price: "₹199",
+    price: "₹9",
+    originalPrice: "₹199",
     period: "/class",
-    amount: 19900, // Amount in paise for Razorpay
+    amount: 900, // Amount in paise for Razorpay
     features: [
       "Live group session",
       "Interactive Q&A",
@@ -88,15 +89,17 @@ const pricingPlans = [
       "WhatsApp community access",
       "Certificate of completion"
     ],
-    popular: false,
+  popular: false,
+    offer: true,
     color: "turquoise"
   },
   {
-    id: "regular",
+   id: "regular",
     name: "Regular Plan",
-    price: "₹299",
+    price: "₹9",
+    originalPrice: "₹299",
     period: "/class",
-    amount: 29900, // Amount in paise for Razorpay
+    amount: 900, // Amount in paise for Razorpay
     features: [
       "Everything in Student Plan",
       "Priority seating in sessions",
@@ -105,7 +108,8 @@ const pricingPlans = [
       "Exclusive resources & materials",
       "Direct mentor access"
     ],
-    popular: true,
+  popular: true,
+    offer: true,
     color: "turquoise"
   }
 ];
@@ -1027,13 +1031,13 @@ const PricingSection = () => {
           className="text-center mb-16"
         >
           <span className="inline-flex items-center gap-2 bg-turquoise-100 text-turquoise-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-            <Zap className="w-4 h-4" /> Pricing
+          <Zap className="w-4 h-4" /> 🇮🇳 Independence Day Special
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl text-text-primary mb-4">
-            Choose Your Plan
+            Celebrate Freedom, Choose Your Plan
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            Affordable plans designed for students and professionals alike
+            This Independence Day, get started at just <span className="font-semibold text-turquoise-600">₹9/class</span> — limited time only
           </p>
         </motion.div>
 
@@ -1054,9 +1058,11 @@ const PricingSection = () => {
                   : 'border border-turquoise-100 shadow-lg'
               }`}
             >
-              {plan.popular && (
-                <div className="popular-badge">
-                  Most Popular
+             {plan.offer && (
+                  <span className="inline-block bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wide">
+                    Independence Day Offer
+                  </span>
+                )}
                 </div>
               )}
               <div className="text-center mb-8">
