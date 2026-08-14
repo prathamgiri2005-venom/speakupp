@@ -1058,13 +1058,23 @@ const PricingSection = () => {
                   : 'border border-turquoise-100 shadow-lg'
               }`}
             >
-             {plan.offer && (
-                  <span className="inline-block bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wide">
-                    Independence Day Offer
-                  </span>
-                )}
-                </div>
-              )}
+          {plan.offer && (
+  <span className="inline-block bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wide">
+    Independence Day Offer
+  </span>
+)}
+
+<div className="text-center mb-8">
+  <h3 className="font-heading text-2xl text-text-primary mb-2">
+    {plan.name}
+  </h3>
+  <div className="flex items-baseline justify-center gap-1">
+    <span className="font-heading text-5xl font-bold text-turquoise-600">
+      {plan.price}
+    </span>
+    <span className="text-text-secondary">{plan.period}</span>
+  </div>
+</div>
               <div className="text-center mb-8">
                 <h3 className="font-heading text-2xl text-text-primary mb-2">{plan.name}</h3>
                 <div className="flex items-baseline justify-center gap-1">
