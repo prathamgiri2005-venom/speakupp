@@ -1075,13 +1075,7 @@ const PricingSection = () => {
     <span className="text-text-secondary">{plan.period}</span>
   </div>
 </div>
-              <div className="text-center mb-8">
-                <h3 className="font-heading text-2xl text-text-primary mb-2">{plan.name}</h3>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="font-heading text-5xl font-bold text-turquoise-600">{plan.price}</span>
-                  <span className="text-text-secondary">{plan.period}</span>
-                </div>
-              </div>
+          
               <ul className="space-y-4 mb-8">
                 {plan.features.map((feature, fIndex) => (
                   <li key={fIndex} className="flex items-start gap-3">
